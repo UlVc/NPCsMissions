@@ -55,11 +55,6 @@ public class Main extends JavaPlugin implements Listener {
 			return true;
 		}
 		
-		if (label.equalsIgnoreCase("printnpc")) {
-			NPC.printList();
-			return true;
-		}
-		
 		return false;
 	}
 

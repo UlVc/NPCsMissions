@@ -31,6 +31,21 @@ public class NPC {
 	
 	private static List<EntityPlayer> NPC = new ArrayList<EntityPlayer>();
 	
+	public static void createNPC(Player player, String skin) {
+		MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
+		WorldServer world = ((CraftWorld) Bukkit.getWorld(player.getWorld().getName())).getHandle();
+		GameProfile gameProfile = new GameProfile(UUID.randomUUID(), ChatColor.DARK_AQUA + "" + ChatColor.BOLD + skin);
+		EntityPlayer npc = new EntityPlayer(server, world, gameProfile, new PlayerInteractManager(world));
+		npc.setLocation(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(),
+				player.getLocation().getYaw(), player.getLocation().getPitch());
+		
+		String[] name = getSkin(player, skin);
+		gameProfile.getProperties().put("textures",new Property("textures", name[0], name[1]));
+		
+		addNPCPacket(npc);
+		NPC.add(npc); 
+	}
+	
 	private static String[] getSkin(Player player, String name) {
 		try {
 			URL url = new URL("https://api.mojang.com/users/profiles/minecraft/" + name);
@@ -63,22 +78,6 @@ public class NPC {
         }
 	}
 	
-	public static void createNPC(Player player, String skin) {
-		MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
-		WorldServer world = ((CraftWorld) Bukkit.getWorld(player.getWorld().getName())).getHandle();
-		GameProfile gameProfile = new GameProfile(UUID.randomUUID(), ChatColor.AQUA + "" + ChatColor.BOLD + skin);
-		EntityPlayer npc = new EntityPlayer(server, world, gameProfile, new PlayerInteractManager(world));
-		// Pitch: Up and down, Yaw: Left and right
-		npc.setLocation(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 
-				        player.getLocation().getYaw(), player.getLocation().getPitch()); 
-		
-		String[] name = getSkin(player, skin);
-		gameProfile.getProperties().put("textures", new Property("textures", name[0], name[1]));
-		
-		addNPCPacket(npc);
-		NPC.add(npc);
-	}
-	
 	public static void addNPCPacket(EntityPlayer npc) {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			PlayerConnection connection = ((CraftPlayer)player).getHandle().playerConnection;
@@ -101,9 +100,4 @@ public class NPC {
 	public static List<EntityPlayer> getNPCs() {
 		return NPC;
 	}
-	
-	public static void printList() {
-		System.out.println(NPC.toString());
-	}
-	
 }

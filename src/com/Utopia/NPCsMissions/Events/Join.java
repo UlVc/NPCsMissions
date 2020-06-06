@@ -13,13 +13,13 @@ public class Join implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		
+		PacketReader reader = new PacketReader();
+		reader.inject(event.getPlayer());	
+		
 		if (NPC.getNPCs() == null || NPC.getNPCs().isEmpty())
 			return;
 		
 		NPC.addJoinNPCPacket(event.getPlayer());
-		
-		PacketReader reader = new PacketReader();
-		reader.inject(event.getPlayer());	
 	}
 	
 	@EventHandler
