@@ -1,0 +1,8 @@
+main: com.Utopia.NPCsMissions.Main
+name: NPCsMissions12
+version: 1.0
+author: Ulrich
+
+commands:
+   createnpc:
+   printnpc:
