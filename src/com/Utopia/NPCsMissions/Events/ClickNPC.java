@@ -5,14 +5,27 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public class ClickNPC implements Listener{
+import com.Utopia.NPCsMissions.Main;
+
+public class ClickNPC implements Listener {
+	
+	private Main plugin;
+	
+	public ClickNPC(Main plugin) {
+		this.plugin = plugin;
+	}
 
     @EventHandler
     public void onClick(RightClickNPC event) {
         Player player = event.getPlayer();
-		player.sendMessage("Hey! I am " + event.getNPC().getName() + ChatColor.WHITE + ", here is your mission:");
-		player.sendMessage("Mission sample");
-		player.sendMessage("Good luck.");
+        for (String s : this.plugin.getConfig().getStringList("npc-message")) {
+        	try {
+            	String replaced = s.replace("<name_of_the_npc>", event.getNPC().getName());
+        		player.sendMessage(ChatColor.translateAlternateColorCodes('&', replaced));
+            } catch(Exception e) {
+            	player.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
+            }
+        }
     }
 
 }

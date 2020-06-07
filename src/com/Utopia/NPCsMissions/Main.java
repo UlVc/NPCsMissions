@@ -26,12 +26,15 @@ public class Main extends JavaPlugin implements Listener{
 
 	@Override
 	public void onEnable() {
+		this.saveDefaultConfig();
+		
 		data = new DataManager(this);
 		
 		getServer().getConsoleSender().sendMessage(ChatColor.GREEN + 
 				"\n\n-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n NPCs Missions has been enabled \n-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n");
+		
 		this.getServer().getPluginManager().registerEvents(new Join(), this);
-		this.getServer().getPluginManager().registerEvents(new ClickNPC(), this);
+		this.getServer().getPluginManager().registerEvents(new ClickNPC(this), this);
 		this.getServer().getPluginManager().registerEvents(new Missions(), this);
 		
 		if (data.getConfig().contains("data"))
