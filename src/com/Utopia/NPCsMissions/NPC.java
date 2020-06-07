@@ -58,7 +58,7 @@ public class NPC {
 		Main.getData().set("data." + var + ".x", (int) player.getLocation().getX());
 		Main.getData().set("data." + var + ".y", (int) player.getLocation().getY());
 		Main.getData().set("data." + var + ".z", (int) player.getLocation().getZ());
-		Main.getData().set("data." + var + ".p", player.getLocation().getPitch());
+		Main.getData().set("data." + var + ".pitch", player.getLocation().getPitch());
 		Main.getData().set("data." + var + ".yaw", player.getLocation().getYaw());
 		Main.getData().set("data." + var + ".world", player.getLocation().getWorld().getName());
 		Main.getData().set("data." + var + ".name", skin);
@@ -168,6 +168,32 @@ public class NPC {
 					file.getInt("data." + key + ".y") == npcY && 
 					file.getInt("data." + key + ".z") == npcZ) {
 				Main.getData().set("data." + key, null);
+				Main.saveData();
+				return;
+			}		
+			
+		});
+		
+	}
+
+	public static void moveNPC(Player player, RightClickNPC npcSelected) {
+		
+		int npcX = (int) npcSelected.getNPC().locX;
+		int npcY = (int) npcSelected.getNPC().locY;
+		int npcZ = (int) npcSelected.getNPC().locZ;
+		
+		FileConfiguration file = Main.getData();
+		
+		file.getConfigurationSection("data").getKeys(false).forEach(key -> {
+			
+			if (file.getInt("data." + key + ".x") == npcX && 
+					file.getInt("data." + key + ".y") == npcY && 
+					file.getInt("data." + key + ".z") == npcZ) {
+				Main.getData().set("data." + key + ".x", (int) player.getLocation().getX());
+				Main.getData().set("data." + key + ".y", (int) player.getLocation().getY());
+				Main.getData().set("data." + key + ".z", (int) player.getLocation().getZ());
+				Main.getData().set("data." + key + ".pitch", player.getLocation().getPitch());
+				Main.getData().set("data." + key + ".yaw", player.getLocation().getYaw());
 				Main.saveData();
 				return;
 			}		

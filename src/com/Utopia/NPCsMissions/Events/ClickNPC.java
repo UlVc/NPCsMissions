@@ -24,7 +24,7 @@ public class ClickNPC implements Listener {
     public void onClick(RightClickNPC event) {
     	Player player = event.getPlayer();
     	
-    	if (player.getItemInHand().getType().equals(Material.BEDROCK)) {
+    	if (player.getItemInHand().getType().equals(Material.DIAMOND_AXE)) {
         	player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNPC Selected! &6&l(&6&l" + event.getNPC().getName() + "&6&l)"));
         	npcSelected = event;
         } else {  
@@ -40,7 +40,11 @@ public class ClickNPC implements Listener {
     }
     
     public RightClickNPC getNPCSelected() {
-    	return npcSelected;
+    	return this.npcSelected;
+    }
+    
+    public void resetNPCSelected() {
+    	this.npcSelected = null;
     }
 
 }
