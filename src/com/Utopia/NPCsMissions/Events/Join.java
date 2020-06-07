@@ -5,8 +5,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import com.Utopia.NPCsMissions.NPC;
 import com.Utopia.NPCsMissions.PacketReader;
+import com.Utopia.NPCsMissions.NPC.NPC;
 
 public class Join implements Listener{
 

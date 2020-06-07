@@ -11,7 +11,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import com.Utopia.NPCsMissions.Events.RightClickNPC;
+import com.Utopia.NPCsMissions.NPC.NPC;
+import com.Utopia.NPCsMissions.NPC.RightClickNPC;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;

@@ -12,10 +12,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.Utopia.NPCsMissions.Events.ClickNPC;
 import com.Utopia.NPCsMissions.Events.Join;
-import com.Utopia.NPCsMissions.Events.RightClickNPC;
+import com.Utopia.NPCsMissions.Files.DataManager;
 import com.Utopia.NPCsMissions.Missions.Missions;
+import com.Utopia.NPCsMissions.NPC.ClickNPC;
+import com.Utopia.NPCsMissions.NPC.NPC;
+import com.Utopia.NPCsMissions.NPC.RightClickNPC;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
@@ -57,7 +59,7 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@Override
 	public void onLoad() {
-		reInjectPlayers();
+		this.getServer().getPluginManager().registerEvents(new Join(), this);
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
