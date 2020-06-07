@@ -57,19 +57,21 @@ public class Main extends JavaPlugin implements Listener{
 		}
 	}
 	
-	@Override
-	public void onLoad() {
-		this.getServer().getPluginManager().registerEvents(new Join(), this);
-	}
-	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		
+		String noPermission = this.getConfig().getString("dont-have-permission");
+		String npcCreated = this.getConfig().getString("npc-created");
+		String npcMoved = this.getConfig().getString("npc-moved");
+		String npcRemoved = this.getConfig().getString("npc-removed");
+		String npcRenamed = this.getConfig().getString("npc-renamed");
+		
 		if (label.equalsIgnoreCase("createNPC")) {
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.RED + "Sorry Console, you cannot use that command!");
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lSorry Console, you cannot use that command!"));
 				return true;
 			}
 			if (!(sender.hasPermission("NPCsMissions.create"))) {
-				sender.sendMessage(ChatColor.RED + "You do not have permission to run this command!");
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermission));
 				return true;
 			}
 			Player player = (Player) sender;
@@ -80,7 +82,7 @@ public class Main extends JavaPlugin implements Listener{
 					return false;
 				}
 				NPC.createNPC(player, name, "&c&l");
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNPC Created! :)"));
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcCreated));
 				reInjectPlayers();
 				return true;
 			}
@@ -92,13 +94,13 @@ public class Main extends JavaPlugin implements Listener{
 			
 			if (args.length < 2) {
 				NPC.createNPC(player, args[0], "&c&l");
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNPC Created! :)"));
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcCreated));
 				reInjectPlayers();
 				return true;
 			}
 			
 			NPC.createNPC(player, args[0], args[1]);
-			player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNPC Created! :)"));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcCreated));
 			reInjectPlayers();
 			return true;	
 			
@@ -110,7 +112,7 @@ public class Main extends JavaPlugin implements Listener{
 				return true;
 			}
 			if (!(sender.hasPermission("NPCsMissions.rename"))) {
-				sender.sendMessage(ChatColor.RED + "You do not have permission to run this command!");
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermission));
 				return true;
 			}
 			Player player = (Player) sender;
@@ -122,13 +124,14 @@ public class Main extends JavaPlugin implements Listener{
 			}
 			
 			NPC.renameNPC(args[0], npcSelected);
-			player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNPC renamed!"));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcRenamed));
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				PacketReader reader = new PacketReader();
 				reader.uninject(p);
 				for (EntityPlayer npc : NPC.getNPCs())
 					NPC.removeNPC(p, npc);
 			}
+			npcClicked.resetNPCSelected();
 			loadNPC();
 			return true;
 		}
@@ -139,7 +142,7 @@ public class Main extends JavaPlugin implements Listener{
 				return true;
 			}
 			if (!(sender.hasPermission("NPCsMissions.remove"))) {
-				sender.sendMessage(ChatColor.RED + "You do not have permission to run this command!");
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermission));
 				return true;
 			}
 			Player player = (Player) sender;
@@ -159,7 +162,7 @@ public class Main extends JavaPlugin implements Listener{
 			}
 			npcClicked.resetNPCSelected();
 			loadNPC();
-			player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNPC removed!"));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcRemoved));
 			return true;
 		}
 		
@@ -169,7 +172,7 @@ public class Main extends JavaPlugin implements Listener{
 				return true;
 			}
 			if (!(sender.hasPermission("NPCsMissions.movehere"))) {
-				sender.sendMessage(ChatColor.RED + "You do not have permission to run this command!");
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermission));
 				return true;
 			}
 			Player player = (Player) sender;
@@ -189,7 +192,7 @@ public class Main extends JavaPlugin implements Listener{
 			}
 			npcClicked.resetNPCSelected();
 			loadNPC();
-			player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNPC moved!"));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcMoved));
 			return true;
 		}
 		
