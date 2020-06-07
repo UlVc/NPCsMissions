@@ -131,6 +131,35 @@ public class Main extends JavaPlugin implements Listener{
 			return true;
 		}
 		
+		if (label.equalsIgnoreCase("removeNPC")) {
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(ChatColor.RED + "Sorry Console, you cannot use that command!");
+				return true;
+			}
+			if (!(sender.hasPermission("NPCsMissions.remove"))) {
+				sender.sendMessage(ChatColor.RED + "You do not have permission to run this command!");
+				return true;
+			}
+			Player player = (Player) sender;
+			RightClickNPC npcSelected = npcClicked.getNPCSelected();
+			
+			if (npcSelected == null) {
+				player.sendMessage(ChatColor.RED + "Use /removeNPC after selecting the NPC.");
+				return true;
+			}
+			
+			NPC.removeNPC(npcSelected);
+			player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNPC removed!"));
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				PacketReader reader = new PacketReader();
+				reader.uninject(p);
+				for (EntityPlayer npc : NPC.getNPCs())
+					NPC.removeNPC(p, npc);
+			}
+			loadNPC();
+			return true;
+		}
+		
 		return false;
 	}
 	

@@ -19,7 +19,8 @@ public class ClickNPC implements Listener {
 		this.plugin = plugin;
 	}
 
-    @EventHandler
+    @SuppressWarnings("deprecation")
+	@EventHandler
     public void onClick(RightClickNPC event) {
     	Player player = event.getPlayer();
     	

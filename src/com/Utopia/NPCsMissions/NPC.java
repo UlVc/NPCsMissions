@@ -32,11 +32,7 @@ import net.minecraft.server.v1_12_R1.PlayerInteractManager;
 import net.minecraft.server.v1_12_R1.WorldServer;
 
 public class NPC {
-	
-	private static int posX = 0;
-	private static int posY = 0;
-	private static int posZ = 0;
-	
+
 	private static List<EntityPlayer> NPC = new ArrayList<EntityPlayer>();
 	
 	public static void createNPC(Player player, String skin, String colorFormat) {
@@ -47,10 +43,6 @@ public class NPC {
 		EntityPlayer npc = new EntityPlayer(server, world, gameProfile, new PlayerInteractManager(world));
 		npc.setLocation(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(),
 				player.getLocation().getYaw(), player.getLocation().getPitch());
-		
-		posX = (int) player.getLocation().getX();
-		posY = (int) player.getLocation().getY();
-		posZ = (int) player.getLocation().getZ();
 		
 		String[] name = getSkin(player, skin);
 		gameProfile.getProperties().put("textures", new Property("textures", name[0], name[1]));
@@ -141,18 +133,6 @@ public class NPC {
 		return NPC;
 	}
 	
-	public static int getPosX() {
-		return posX;
-	}
-	
-	public static int getPosY() {
-		return posY;
-	}
-	
-	public static int getPosZ() {
-		return posZ;
-	}
-	
 	public static void renameNPC(String name, RightClickNPC npcSelected) {
 		
 		int npcX = (int) npcSelected.getNPC().locX;
@@ -173,4 +153,27 @@ public class NPC {
 			
 		});
 	}
+
+	public static void removeNPC(RightClickNPC npcSelected) {
+		
+		int npcX = (int) npcSelected.getNPC().locX;
+		int npcY = (int) npcSelected.getNPC().locY;
+		int npcZ = (int) npcSelected.getNPC().locZ;
+		
+		FileConfiguration file = Main.getData();
+		
+		file.getConfigurationSection("data").getKeys(false).forEach(key -> {
+			
+			if (file.getInt("data." + key + ".x") == npcX && 
+					file.getInt("data." + key + ".y") == npcY && 
+					file.getInt("data." + key + ".z") == npcZ) {
+				Main.getData().set("data." + key, null);
+				Main.saveData();
+				return;
+			}		
+			
+		});
+		
+	}
+	
 }
