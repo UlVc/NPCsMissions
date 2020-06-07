@@ -5,8 +5,6 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -17,7 +15,7 @@ import com.Utopia.NPCsMissions.Files.DataManager;
 import com.Utopia.NPCsMissions.Missions.Missions;
 import com.Utopia.NPCsMissions.NPC.ClickNPC;
 import com.Utopia.NPCsMissions.NPC.NPC;
-import com.Utopia.NPCsMissions.NPC.RightClickNPC;
+import com.Utopia.NPCsMissions.commands.*;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
@@ -41,6 +39,11 @@ public class Main extends JavaPlugin implements Listener{
 		this.getServer().getPluginManager().registerEvents(npcClicked, this);
 		this.getServer().getPluginManager().registerEvents(new Missions(), this);
 		
+		new CreateNPC(this);
+		new RemoveNPC(this, npcClicked);
+		new RenameNPC(this, npcClicked);
+		new MoveNPCHere(this, npcClicked);
+		
 		if (data.getConfig().contains("data"))
 			loadNPC();
 		
@@ -55,148 +58,6 @@ public class Main extends JavaPlugin implements Listener{
 			for (EntityPlayer npc : NPC.getNPCs())
 				NPC.removeNPC(player, npc);
 		}
-	}
-	
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		
-		String noPermission = this.getConfig().getString("dont-have-permission");
-		String npcCreated = this.getConfig().getString("npc-created");
-		String npcMoved = this.getConfig().getString("npc-moved");
-		String npcRemoved = this.getConfig().getString("npc-removed");
-		String npcRenamed = this.getConfig().getString("npc-renamed");
-		
-		if (label.equalsIgnoreCase("createNPC")) {
-			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lSorry Console, you cannot use that command!"));
-				return true;
-			}
-			if (!(sender.hasPermission("NPCsMissions.create"))) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermission));
-				return true;
-			}
-			Player player = (Player) sender;
-			if (args.length == 0) {
-				String name = player.getName();
-				if (name.length() > 15) {
-					player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lI can't soport 16 characters or more yet!"));
-					return false;
-				}
-				NPC.createNPC(player, name, "&c&l");
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcCreated));
-				reInjectPlayers();
-				return true;
-			}
-			
-			if (args[0].length() > 15) {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lI can't soport 16 characters or more yet!"));
-				return false;
-			}
-			
-			if (args.length < 2) {
-				NPC.createNPC(player, args[0], "&c&l");
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcCreated));
-				reInjectPlayers();
-				return true;
-			}
-			
-			NPC.createNPC(player, args[0], args[1]);
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcCreated));
-			reInjectPlayers();
-			return true;	
-			
-		}
-		
-		if (label.equalsIgnoreCase("renameNPC")) {
-			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.RED + "Sorry Console, you cannot use that command!");
-				return true;
-			}
-			if (!(sender.hasPermission("NPCsMissions.rename"))) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermission));
-				return true;
-			}
-			Player player = (Player) sender;
-			RightClickNPC npcSelected = npcClicked.getNPCSelected();
-			
-			if (args.length == 0 || npcSelected == null) {
-				player.sendMessage(ChatColor.RED + "Use /renameNPC <new_name_of_the_npc> after selecting the NPC.");
-				return true;
-			}
-			
-			NPC.renameNPC(args[0], npcSelected);
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcRenamed));
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				PacketReader reader = new PacketReader();
-				reader.uninject(p);
-				for (EntityPlayer npc : NPC.getNPCs())
-					NPC.removeNPC(p, npc);
-			}
-			npcClicked.resetNPCSelected();
-			loadNPC();
-			return true;
-		}
-		
-		if (label.equalsIgnoreCase("removeNPC")) {
-			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.RED + "Sorry Console, you cannot use that command!");
-				return true;
-			}
-			if (!(sender.hasPermission("NPCsMissions.remove"))) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermission));
-				return true;
-			}
-			Player player = (Player) sender;
-			RightClickNPC npcSelected = npcClicked.getNPCSelected();
-			
-			if (npcSelected == null) {
-				player.sendMessage(ChatColor.RED + "Use /removeNPC after selecting the NPC.");
-				return true;
-			}
-			
-			NPC.removeNPC(npcSelected);
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				PacketReader reader = new PacketReader();
-				reader.uninject(p);
-				for (EntityPlayer npc : NPC.getNPCs())
-					NPC.removeNPC(p, npc);
-			}
-			npcClicked.resetNPCSelected();
-			loadNPC();
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcRemoved));
-			return true;
-		}
-		
-		if (label.equalsIgnoreCase("moveNPCHere")) {
-			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.RED + "Sorry Console, you cannot use that command!");
-				return true;
-			}
-			if (!(sender.hasPermission("NPCsMissions.movehere"))) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermission));
-				return true;
-			}
-			Player player = (Player) sender;
-			RightClickNPC npcSelected = npcClicked.getNPCSelected();
-			
-			if (npcSelected == null) {
-				player.sendMessage(ChatColor.RED + "Use /moveNPCHere after selecting the NPC.");
-				return true;
-			}
-			
-			NPC.moveNPC(player, npcSelected);
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				PacketReader reader = new PacketReader();
-				reader.uninject(p);
-				for (EntityPlayer npc : NPC.getNPCs())
-					NPC.removeNPC(p, npc);
-			}
-			npcClicked.resetNPCSelected();
-			loadNPC();
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcMoved));
-			return true;
-		}
-		
-		return false;
 	}
 	
 	public static FileConfiguration getData() {
@@ -224,7 +85,7 @@ public class Main extends JavaPlugin implements Listener{
 		});
 	}
 	
-	private void reInjectPlayers() {
+	public void reInjectPlayers() {
 		if (!Bukkit.getOnlinePlayers().isEmpty())
 			for (Player p :Bukkit.getOnlinePlayers()) {
 				PacketReader reader = new PacketReader();
