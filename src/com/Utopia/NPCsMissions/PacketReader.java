@@ -1,6 +1,7 @@
 package com.Utopia.NPCsMissions;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,21 +21,20 @@ import net.minecraft.server.v1_12_R1.Packet;
 import net.minecraft.server.v1_12_R1.PacketPlayInUseEntity;
 
 public class PacketReader {
-	
+
 	Channel channel;
 	public static Map<UUID, Channel> channels = new HashMap<UUID, Channel>();
 	
 	public void inject(Player player) {
 		CraftPlayer craftPlayer = (CraftPlayer) player;
 		channel = craftPlayer.getHandle().playerConnection.networkManager.channel;
-		
 		channels.put(player.getUniqueId(), channel);
 		
 		if (channel.pipeline().get("PacketInjector") != null)
 			return;
 		
 		channel.pipeline().addAfter("decoder", "PacketInjector", new MessageToMessageDecoder<PacketPlayInUseEntity>() {
-
+			
 			@Override
 			protected void decode(ChannelHandlerContext channel, PacketPlayInUseEntity packet, List<Object> arg) throws Exception {
 				arg.add(packet);
@@ -42,20 +42,41 @@ public class PacketReader {
 			}
 			
 		});
+		
 	}
 	
-	// Leave server:
 	public void uninject(Player player) {
-		channel = channels.get(player.getUniqueId());
-		if (channel.pipeline().get("PacketInjector") != null)
-			channel.pipeline().remove("PacketInjector");
+		Channel channel = getChannel(player);
+        channel.eventLoop().submit(() -> {
+            channel.pipeline().remove(player.getName());
+            return null;
+        });
 	}
+	
+	Channel getChannel(Player player) {
+        Channel channel = null;
+        try {
+            Class<?> cp = player.getClass();
+            Method handle = cp.getMethod("getHandle");
+            Object ep = handle.invoke(cp.cast(player));
+
+            Field f = ep.getClass().getField("playerConnection");
+            Field n = f.get(ep).getClass().getField("networkManager");
+            Object x = null;
+            x = n.get(f.get(ep));
+            Field c = x.getClass().getField("channel");
+            x = c.get(n.get(f.get(ep)));
+            channel = (Channel) x;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return channel;
+    }
 	
 	public void readPacket(Player player, Packet<?> packet) {
 		
-		System.out.println("Packet >> " + packet);
-		
-		if (packet.getClass().getSimpleName().equalsIgnoreCase("PacketPlayInUseEntity")) { // Whenever you click an entity it will pass trough here
+		if (packet.getClass().getSimpleName().equalsIgnoreCase("PacketPlayInUseEntity")) {
 			
 			if (getValue(packet, "action").toString().equalsIgnoreCase("ATTACK"))
 				return;
@@ -67,7 +88,7 @@ public class PacketReader {
 			int id = (int) getValue(packet, "a");
 			
 			if (getValue(packet, "action").toString().equalsIgnoreCase("INTERACT")) {
-				for (EntityPlayer npc : NPC.getNPCs()) { // Checks all the NPCs that are on the server
+				for (EntityPlayer npc : NPC.getNPCs()) {
 					if (npc.getId() == id) {
 						Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPlugin(Main.class), new Runnable() {
 
@@ -75,7 +96,7 @@ public class PacketReader {
 							public void run() {
 								Bukkit.getPluginManager().callEvent(new RightClickNPC(player, npc));
 							}
-							
+								
 						}, 0);
 					}
 				}
@@ -87,11 +108,15 @@ public class PacketReader {
 		Object result = null;
 		
 		try {
+			
 			Field field = instance.getClass().getDeclaredField(name);
 			field.setAccessible(true);
+			
 			result = field.get(instance);
+			
 			field.setAccessible(false);
-		} catch(Exception e) {
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
