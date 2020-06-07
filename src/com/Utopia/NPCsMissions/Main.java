@@ -37,11 +37,7 @@ public class Main extends JavaPlugin implements Listener{
 		if (data.getConfig().contains("data"))
 			loadNPC();
 		
-		if (!Bukkit.getOnlinePlayers().isEmpty())
-			for (Player player :Bukkit.getOnlinePlayers()) {
-				PacketReader reader = new PacketReader();
-				reader.inject(player);
-			}
+		reInjectPlayers();
 	}
 	
 	@Override
@@ -71,13 +67,9 @@ public class Main extends JavaPlugin implements Listener{
 					player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lI can't soport 16 characters or more yet!"));
 					return false;
 				}
-				if (!Bukkit.getOnlinePlayers().isEmpty())
-					for (Player p :Bukkit.getOnlinePlayers()) {
-						PacketReader reader = new PacketReader();
-						reader.inject(p);
-					}
-				NPC.createNPC(player, name);
+				NPC.createNPC(player, name, "&c&l");
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNPC Created! :)"));
+				reInjectPlayers();
 				return true;
 			}
 			
@@ -86,14 +78,18 @@ public class Main extends JavaPlugin implements Listener{
 				return false;
 			}
 			
-			NPC.createNPC(player, args[0]);
+			if (args.length < 2) {
+				NPC.createNPC(player, args[0], "&c&l");
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNPC Created! :)"));
+				reInjectPlayers();
+				return true;
+			}
+			
+			NPC.createNPC(player, args[0], args[1]);
 			player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNPC Created! :)"));
-			if (!Bukkit.getOnlinePlayers().isEmpty())
-				for (Player p :Bukkit.getOnlinePlayers()) {
-					PacketReader reader = new PacketReader();
-					reader.inject(p);
-				}
-			return true;
+			reInjectPlayers();
+			return true;	
+			
 		}
 		return false;
 	}
@@ -121,6 +117,14 @@ public class Main extends JavaPlugin implements Listener{
 			
 			NPC.loadNPC(location, gameProfile);
 		});
+	}
+	
+	private void reInjectPlayers() {
+		if (!Bukkit.getOnlinePlayers().isEmpty())
+			for (Player p :Bukkit.getOnlinePlayers()) {
+				PacketReader reader = new PacketReader();
+				reader.inject(p);
+			}
 	}
 	
 }

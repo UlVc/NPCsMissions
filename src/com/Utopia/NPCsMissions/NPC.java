@@ -33,11 +33,11 @@ public class NPC {
 	
 	private static List<EntityPlayer> NPC = new ArrayList<EntityPlayer>();
 	
-	public static void createNPC(Player player, String skin) {
+	public static void createNPC(Player player, String skin, String colorFormat) {
 		
 		MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
 		WorldServer world = ((CraftWorld) Bukkit.getWorld(player.getWorld().getName())).getHandle();
-		GameProfile gameProfile = new GameProfile(UUID.randomUUID(), ChatColor.DARK_AQUA + "" + ChatColor.BOLD + skin);
+		GameProfile gameProfile = new GameProfile(UUID.randomUUID(), ChatColor.translateAlternateColorCodes('&', colorFormat + skin));
 		EntityPlayer npc = new EntityPlayer(server, world, gameProfile, new PlayerInteractManager(world));
 		npc.setLocation(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(),
 				player.getLocation().getYaw(), player.getLocation().getPitch());
