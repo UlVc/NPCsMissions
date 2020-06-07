@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.Utopia.NPCsMissions.Events.ClickNPC;
 import com.Utopia.NPCsMissions.Events.Join;
+import com.Utopia.NPCsMissions.Events.RightClickNPC;
 import com.Utopia.NPCsMissions.Missions.Missions;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -23,6 +24,7 @@ import net.minecraft.server.v1_12_R1.EntityPlayer;
 public class Main extends JavaPlugin implements Listener{
 	
 	public static DataManager data;
+	private ClickNPC npcClicked = new ClickNPC(this);
 
 	@Override
 	public void onEnable() {
@@ -34,7 +36,7 @@ public class Main extends JavaPlugin implements Listener{
 				"\n\n-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n NPCs Missions has been enabled \n-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n");
 		
 		this.getServer().getPluginManager().registerEvents(new Join(), this);
-		this.getServer().getPluginManager().registerEvents(new ClickNPC(this), this);
+		this.getServer().getPluginManager().registerEvents(npcClicked, this);
 		this.getServer().getPluginManager().registerEvents(new Missions(), this);
 		
 		if (data.getConfig().contains("data"))
@@ -53,13 +55,18 @@ public class Main extends JavaPlugin implements Listener{
 		}
 	}
 	
+	@Override
+	public void onLoad() {
+		reInjectPlayers();
+	}
+	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (label.equalsIgnoreCase("createnpc")) {
+		if (label.equalsIgnoreCase("createNPC")) {
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.RED + "Sorry Console, you cannot use that command!");
 				return true;
 			}
-			if (!(sender.hasPermission("NPC.use"))) {
+			if (!(sender.hasPermission("NPCsMissions.create"))) {
 				sender.sendMessage(ChatColor.RED + "You do not have permission to run this command!");
 				return true;
 			}
@@ -94,6 +101,36 @@ public class Main extends JavaPlugin implements Listener{
 			return true;	
 			
 		}
+		
+		if (label.equalsIgnoreCase("renameNPC")) {
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(ChatColor.RED + "Sorry Console, you cannot use that command!");
+				return true;
+			}
+			if (!(sender.hasPermission("NPCsMissions.rename"))) {
+				sender.sendMessage(ChatColor.RED + "You do not have permission to run this command!");
+				return true;
+			}
+			Player player = (Player) sender;
+			RightClickNPC npcSelected = npcClicked.getNPCSelected();
+			
+			if (args.length == 0 || npcSelected == null) {
+				player.sendMessage(ChatColor.RED + "Use /renameNPC <new_name_of_the_npc> after selecting the NPC.");
+				return true;
+			}
+			
+			NPC.renameNPC(args[0], npcSelected);
+			player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNPC renamed!"));
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				PacketReader reader = new PacketReader();
+				reader.uninject(p);
+				for (EntityPlayer npc : NPC.getNPCs())
+					NPC.removeNPC(p, npc);
+			}
+			loadNPC();
+			return true;
+		}
+		
 		return false;
 	}
 	

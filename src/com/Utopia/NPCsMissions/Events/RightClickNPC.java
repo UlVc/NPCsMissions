@@ -7,7 +7,7 @@ import org.bukkit.event.HandlerList;
 
 import net.minecraft.server.v1_12_R1.EntityPlayer;
 
-public class RightClickNPC extends Event implements Cancellable{
+public class RightClickNPC extends Event implements Cancellable {
     
     private final Player player;
     private final EntityPlayer npc;
@@ -40,6 +40,7 @@ public class RightClickNPC extends Event implements Cancellable{
     public boolean isCancelled() {
         return isCancelled;
     }
+    
     @Override
     public void setCancelled(boolean arg) {
         isCancelled = arg;

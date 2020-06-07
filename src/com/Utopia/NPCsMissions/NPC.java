@@ -9,11 +9,13 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import com.Utopia.NPCsMissions.Events.RightClickNPC;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.authlib.GameProfile;
@@ -31,6 +33,10 @@ import net.minecraft.server.v1_12_R1.WorldServer;
 
 public class NPC {
 	
+	private static int posX = 0;
+	private static int posY = 0;
+	private static int posZ = 0;
+	
 	private static List<EntityPlayer> NPC = new ArrayList<EntityPlayer>();
 	
 	public static void createNPC(Player player, String skin, String colorFormat) {
@@ -42,16 +48,20 @@ public class NPC {
 		npc.setLocation(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(),
 				player.getLocation().getYaw(), player.getLocation().getPitch());
 		
+		posX = (int) player.getLocation().getX();
+		posY = (int) player.getLocation().getY();
+		posZ = (int) player.getLocation().getZ();
+		
 		String[] name = getSkin(player, skin);
-		gameProfile.getProperties().put("textures",new Property("textures", name[0], name[1]));
+		gameProfile.getProperties().put("textures", new Property("textures", name[0], name[1]));
 		
 		addNPCPacket(npc);
 		NPC.add(npc); 
-		
+		System.out.println(NPC);
 		
 		int var = 1;
 		if (Main.getData().contains("data"))
-			var = Main.getData().getConfigurationSection("data").getKeys(false).size() + 1;
+			var = Main.getData().getConfigurationSection("data").getKeys(false).size() + 1; // Only childs
 		
 		Main.getData().set("data." + var + ".x", (int) player.getLocation().getX());
 		Main.getData().set("data." + var + ".y", (int) player.getLocation().getY());
@@ -129,5 +139,38 @@ public class NPC {
 	
 	public static List<EntityPlayer> getNPCs() {
 		return NPC;
+	}
+	
+	public static int getPosX() {
+		return posX;
+	}
+	
+	public static int getPosY() {
+		return posY;
+	}
+	
+	public static int getPosZ() {
+		return posZ;
+	}
+	
+	public static void renameNPC(String name, RightClickNPC npcSelected) {
+		
+		int npcX = (int) npcSelected.getNPC().locX;
+		int npcY = (int) npcSelected.getNPC().locY;
+		int npcZ = (int) npcSelected.getNPC().locZ;
+		
+		FileConfiguration file = Main.getData();
+		
+		file.getConfigurationSection("data").getKeys(false).forEach(key -> {
+			
+			if (file.getInt("data." + key + ".x") == npcX && 
+					file.getInt("data." + key + ".y") == npcY && 
+					file.getInt("data." + key + ".z") == npcZ) {
+				Main.getData().set("data." + key + ".name", name);
+				Main.saveData();
+				return;
+			}		
+			
+		});
 	}
 }
