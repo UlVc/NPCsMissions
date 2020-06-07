@@ -3,13 +3,13 @@
 # Author: Ulrich (J4g3rNuBz)
 #
 # Do NOT use : in the text messages.
-# Use \n to make another line.
 # You can use formatting codes (https://minecraft.gamepedia.com/Formatting_codes)
 # Do not change the label <name_of_the_npc> (more will be added), you can delete it.
 # 
 # The command /reload it's not soported yet.
 
 npc-message: 
-  - Hey! I am &l&9<name_of_the_npc>, &fhere is your mission
-  - &6Mission sample 
-  - &dGood luck.
+  - 'Hey! I am &l&9<name_of_the_npc>, &fhere is your mission'
+  - '&8Mission &csample' 
+  - '&6Good &cluck'
+  

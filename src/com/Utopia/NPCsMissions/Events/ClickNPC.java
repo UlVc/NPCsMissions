@@ -1,5 +1,7 @@
 package com.Utopia.NPCsMissions.Events;
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,13 +20,17 @@ public class ClickNPC implements Listener {
     @EventHandler
     public void onClick(RightClickNPC event) {
         Player player = event.getPlayer();
-        for (String s : this.plugin.getConfig().getStringList("npc-message")) {
-        	try {
-            	String replaced = s.replace("<name_of_the_npc>", event.getNPC().getName());
+        
+        List<String> list = this.plugin.getConfig().getStringList("npc-message");
+        System.out.println(list);
+        
+        for (String s : list) {
+        	System.out.println(s);
+        	if (s.contains("<name_of_the_npc>")) {
+        		String replaced = s.replace("<name_of_the_npc>", event.getNPC().getName());
         		player.sendMessage(ChatColor.translateAlternateColorCodes('&', replaced));
-            } catch(Exception e) {
-            	player.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
-            }
+        	} else 
+        		player.sendMessage(ChatColor.translateAlternateColorCodes('&', s));      	
         }
     }
 
