@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.Utopia.NPCsMissions.Main;
-import com.Utopia.NPCsMissions.NPC.NPC;
+import com.Utopia.NPCsMissions.NPCs.NPC;
 
 public class CreateNPC implements CommandExecutor {
 	
