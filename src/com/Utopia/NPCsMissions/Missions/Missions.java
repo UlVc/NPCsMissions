@@ -2,6 +2,7 @@ package com.Utopia.NPCsMissions.Missions;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,18 +21,30 @@ public class Missions implements Listener {
 
 	@EventHandler
 	public void craftingReward(CraftItemEvent event) {
-		Player player = (Player) event.getWhoClicked();
-		ItemStack item = event.getCurrentItem();
-		if (item.getType().equals(Material.DIAMOND_AXE)) {
-			player.sendMessage(prefix + ChatColor.LIGHT_PURPLE + "You were given " + ChatColor.GREEN + " 10 points of experience");
-			player.giveExp(10);
+		FileConfiguration file = Main.getData();
+		
+		if (file.contains("missions_and_users")) {
+			file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
+				
+				if (file.getInt("missions_and_users." + key + ".mission") == 1) {
+					Player player = (Player) event.getWhoClicked();
+					ItemStack item = event.getCurrentItem();
+					if (item.getType().equals(Material.DIAMOND_AXE)) {
+						player.sendMessage(prefix + ChatColor.LIGHT_PURPLE + "You were given " + ChatColor.GREEN + " 10 points of experience");
+						player.giveExp(10);
 
-			plugin.getServer().broadcastMessage(prefix + ChatColor.YELLOW + player.getName() + ChatColor.LIGHT_PURPLE
-					+ " has crafted " + ChatColor.AQUA + "AXE OF ZEUS");
+						plugin.getServer().broadcastMessage(prefix + ChatColor.YELLOW + player.getName() + ChatColor.LIGHT_PURPLE
+								+ " has crafted " + ChatColor.AQUA + "AXE OF ZEUS");
 
-			for (Player online : plugin.getServer().getOnlinePlayers())
-				online.getWorld().playSound(online.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);
-
+						for (Player online : plugin.getServer().getOnlinePlayers())
+							online.getWorld().playSound(online.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);
+						Main.getData().set("missions_and_users." + key + ".mission", 2);
+						Main.saveData();
+						return;
+					}
+				}
+				
+			});
 		}
 	}
 }
