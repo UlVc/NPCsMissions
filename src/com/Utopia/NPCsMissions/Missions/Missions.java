@@ -26,10 +26,12 @@ public class Missions implements Listener {
 		if (file.contains("missions_and_users")) {
 			file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
 				
-				if (file.getInt("missions_and_users." + key + ".mission") == 1) {
+				if (file.getInt("missions_and_users." + key + ".mission") == 1 &&
+						event.getWhoClicked().toString().contains(file.getString("missions_and_users." + key + ".username"))) {
 					Player player = (Player) event.getWhoClicked();
 					ItemStack item = event.getCurrentItem();
 					if (item.getType().equals(Material.DIAMOND_AXE)) {
+						
 						player.sendMessage(prefix + ChatColor.LIGHT_PURPLE + "You were given " + ChatColor.GREEN + " 10 points of experience");
 						player.giveExp(10);
 
@@ -38,6 +40,7 @@ public class Missions implements Listener {
 
 						for (Player online : plugin.getServer().getOnlinePlayers())
 							online.getWorld().playSound(online.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);
+						
 						Main.getData().set("missions_and_users." + key + ".mission", 2);
 						Main.saveData();
 						return;

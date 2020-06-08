@@ -15,6 +15,7 @@ public class ClickNPC implements Listener {
 	
 	private Main plugin;
 	private RightClickNPC npcSelected;
+	private boolean detecter = true;
 	
 	public ClickNPC(Main plugin) {
 		this.plugin = plugin;
@@ -41,23 +42,32 @@ public class ClickNPC implements Listener {
             
             if (file.contains("missions_and_users")) {
     			file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
-    				System.out.println(key);
     				
-    				if (file.getString("missions_and_users." + key + ".username").equalsIgnoreCase(event.getPlayer().toString())) 
+    				if (event.getPlayer().toString().contains(file.getString("missions_and_users." + key + ".username"))) {
+    					detecter = false;
     					return;
+    				}  					
 			
     			});
     			
-    			return;
-            }
+    			if (detecter) {
+    				int var = Main.getData().getConfigurationSection("missions_and_users").getKeys(false).size() + 1; // Only childs
+        			
+        			file.set("missions_and_users." + var + ".username", player.getName());
+            		file.set("missions_and_users." + var + ".mission", 1);
+            		
+            		Main.saveData();
+    			}	
+        		
+        		return;
+        			
+            } else {
+    			file.set("missions_and_users." + 1 + ".username", player.getName());
+        		file.set("missions_and_users." + 1 + ".mission", 1);
+        		Main.saveData();
+        		return;
+    		}
             
-            int var = 1;
-    		if (Main.getData().contains("missions_and_users"))
-    			var = Main.getData().getConfigurationSection("missions_and_users").getKeys(false).size() + 1; // Only childs
-    		
-    		Main.getData().set("missions_and_users." + var + ".username", player.getName());
-    		Main.getData().set("missions_and_users." + var + ".mission", 1);
-    		Main.saveData();
         }
     }
     
