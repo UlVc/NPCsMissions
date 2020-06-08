@@ -55,9 +55,9 @@ public class NPC {
 		if (Main.getData().contains("data"))
 			var = Main.getData().getConfigurationSection("data").getKeys(false).size() + 1; // Only childs
 		
-		Main.getData().set("data." + var + ".x", (int) player.getLocation().getX());
-		Main.getData().set("data." + var + ".y", (int) player.getLocation().getY());
-		Main.getData().set("data." + var + ".z", (int) player.getLocation().getZ());
+		Main.getData().set("data." + var + ".x", player.getLocation().getX());
+		Main.getData().set("data." + var + ".y", player.getLocation().getY());
+		Main.getData().set("data." + var + ".z", player.getLocation().getZ());
 		Main.getData().set("data." + var + ".pitch", player.getLocation().getPitch());
 		Main.getData().set("data." + var + ".yaw", player.getLocation().getYaw());
 		Main.getData().set("data." + var + ".world", player.getLocation().getWorld().getName());
@@ -78,32 +78,6 @@ public class NPC {
 		
 		addNPCPacket(npc);
 		NPC.add(npc); 
-	}
-	
-	private static String[] getSkin(Player player, String name) {
-		try {
-			URL url = new URL("https://api.mojang.com/users/profiles/minecraft/" + name);
-			InputStreamReader reader = new InputStreamReader(url.openStream());
-			String uuid = new JsonParser().parse(reader).getAsJsonObject().get("id").getAsString();
-			
-			URL url2 = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid
-					+ "?unsigned=false");
-			InputStreamReader reader2 = new InputStreamReader(url2.openStream());
-			JsonObject property = new JsonParser().parse(reader2).getAsJsonObject().get("properties")
-					.getAsJsonArray().get(0).getAsJsonObject();
-			String texture = property.get("value").getAsString();
-			String signature = property.get("signature").getAsString();
-			return new String[] {texture, signature};	
-			
-		} catch (Exception e) {
-			EntityPlayer p = ((CraftPlayer) player).getHandle();
-			GameProfile profile = p.getProfile();
-			Property property = profile.getProperties().get("textures").iterator().next();
-			String texture = property.getValue();
-			String signature = property.getSignature();
-			return new String[] {texture, signature}; 
-	        
-		}
 	}
 	
 	public static void addNPCPacket(EntityPlayer npc) {
@@ -135,9 +109,9 @@ public class NPC {
 	
 	public static void renameNPC(String name, RightClickNPC npcSelected) {
 		
-		int npcX = (int) npcSelected.getNPC().locX;
-		int npcY = (int) npcSelected.getNPC().locY;
-		int npcZ = (int) npcSelected.getNPC().locZ;
+		double npcX = npcSelected.getNPC().locX;
+		double npcY = npcSelected.getNPC().locY;
+		double npcZ = npcSelected.getNPC().locZ;
 		
 		FileConfiguration file = Main.getData();
 		
@@ -156,9 +130,9 @@ public class NPC {
 
 	public static void removeNPC(RightClickNPC npcSelected) {
 		
-		int npcX = (int) npcSelected.getNPC().locX;
-		int npcY = (int) npcSelected.getNPC().locY;
-		int npcZ = (int) npcSelected.getNPC().locZ;
+		double npcX = npcSelected.getNPC().locX;
+		double npcY = npcSelected.getNPC().locY;
+		double npcZ = npcSelected.getNPC().locZ;
 		
 		FileConfiguration file = Main.getData();
 		
@@ -178,9 +152,9 @@ public class NPC {
 
 	public static void moveNPC(Player player, RightClickNPC npcSelected) {
 		
-		int npcX = (int) npcSelected.getNPC().locX;
-		int npcY = (int) npcSelected.getNPC().locY;
-		int npcZ = (int) npcSelected.getNPC().locZ;
+		double npcX = npcSelected.getNPC().locX;
+		double npcY = npcSelected.getNPC().locY;
+		double npcZ = npcSelected.getNPC().locZ;
 		
 		FileConfiguration file = Main.getData();
 		
@@ -189,9 +163,9 @@ public class NPC {
 			if (file.getInt("data." + key + ".x") == npcX && 
 					file.getInt("data." + key + ".y") == npcY && 
 					file.getInt("data." + key + ".z") == npcZ) {
-				Main.getData().set("data." + key + ".x", (int) player.getLocation().getX());
-				Main.getData().set("data." + key + ".y", (int) player.getLocation().getY());
-				Main.getData().set("data." + key + ".z", (int) player.getLocation().getZ());
+				Main.getData().set("data." + key + ".x", player.getLocation().getX());
+				Main.getData().set("data." + key + ".y", player.getLocation().getY());
+				Main.getData().set("data." + key + ".z", player.getLocation().getZ());
 				Main.getData().set("data." + key + ".pitch", player.getLocation().getPitch());
 				Main.getData().set("data." + key + ".yaw", player.getLocation().getYaw());
 				Main.saveData();
@@ -200,6 +174,32 @@ public class NPC {
 			
 		});
 		
+	}
+	
+	private static String[] getSkin(Player player, String name) {
+		try {
+			URL url = new URL("https://api.mojang.com/users/profiles/minecraft/" + name);
+			InputStreamReader reader = new InputStreamReader(url.openStream());
+			String uuid = new JsonParser().parse(reader).getAsJsonObject().get("id").getAsString();
+			
+			URL url2 = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid
+					+ "?unsigned=false");
+			InputStreamReader reader2 = new InputStreamReader(url2.openStream());
+			JsonObject property = new JsonParser().parse(reader2).getAsJsonObject().get("properties")
+					.getAsJsonArray().get(0).getAsJsonObject();
+			String texture = property.get("value").getAsString();
+			String signature = property.get("signature").getAsString();
+			return new String[] {texture, signature};	
+			
+		} catch (Exception e) {
+			EntityPlayer p = ((CraftPlayer) player).getHandle();
+			GameProfile profile = p.getProfile();
+			Property property = profile.getProperties().get("textures").iterator().next();
+			String texture = property.getValue();
+			String signature = property.getSignature();
+			return new String[] {texture, signature}; 
+	        
+		}
 	}
 	
 }
