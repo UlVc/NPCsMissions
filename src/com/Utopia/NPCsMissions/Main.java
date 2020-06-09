@@ -40,8 +40,8 @@ public class Main extends JavaPlugin implements Listener{
 		this.getServer().getPluginManager().registerEvents(new Missions(), this);
 		this.getServer().getPluginManager().registerEvents(new Mission2(), this);
 		this.getServer().getPluginManager().registerEvents(new Mission3(), this);
-		this.getServer().getPluginManager().registerEvents(new Mission4(), this);
-		this.getServer().getPluginManager().registerEvents(new Mission7(), this);
+		this.getServer().getPluginManager().registerEvents(new Mission4(), this); //done
+		this.getServer().getPluginManager().registerEvents(new Mission7(), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission9(), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission10CraftedBlock(), this);
 		this.getServer().getPluginManager().registerEvents(new Mission10PlacedBlock(), this);

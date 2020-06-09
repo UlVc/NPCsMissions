@@ -1,13 +1,12 @@
 package com.Utopia.NPCsMissions.Missions;
 
-import org.bukkit.Sound;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerFishEvent.State;
-import org.bukkit.plugin.Plugin;
 
 import com.Utopia.NPCsMissions.Main;
 
@@ -16,7 +15,6 @@ import net.md_5.bungee.api.ChatColor;
 public class Mission7 implements Listener {
 
 	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
-	private Plugin plugin = Main.getPlugin(Main.class);
 
 	@EventHandler
 	public void fishingEvent(PlayerFishEvent event) {
@@ -25,33 +23,36 @@ public class Mission7 implements Listener {
 		if (file.contains("missions_and_users")) {
 			file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
 				
-				if (file.getInt("missions_and_users." + key + ".mission") == 1 &&
+				if (file.getInt("missions_and_users." + key + ".mission") == 7 &&
 						event.getPlayer().toString().contains(file.getString("missions_and_users." + key + ".username"))) {
 					
-					int count = Main.getData().getInt("missions_and_users." + key + ".fishing_count");
-					
+					int count = Main.getData().getInt("missions_and_users." + key + ".fishing_counter");
 					Player player = (Player) event.getPlayer();
 
-					if (State.CAUGHT_FISH.equals(event.getState())) {
+					if (State.CAUGHT_FISH.equals(event.getState()) && count < 128) {
 						
-						player.sendMessage(prefix + ChatColor.LIGHT_PURPLE + "You fished! Fishes left: " + (127-count));
+						player.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&',"You fished! &9[&a" + (count+1) + "&6/&a128&9]"));
 						
-						Main.getData().set("missions_and_users." + key + ".fishing_count", count + 1);
+						file.set("missions_and_users." + key + ".fishing_counter", count + 1);
 						Main.saveData();
+						count += 1;
 
 					}
 					
-					if (count == 128) {
-						plugin.getServer().broadcastMessage(prefix + ChatColor.YELLOW + player.getName() + ChatColor.LIGHT_PURPLE
-								+ " has finished the fishing mission.");
-
-						for (Player online : plugin.getServer().getOnlinePlayers())
-							online.getWorld().playSound(online.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);
+					if (count > 1) {
 						
-						Main.getData().set("missions_and_users." + key + ".mission", 8);
-						Main.getData().set("missions_and_users." + key + ".fishing_count", null);
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the fish 128 thinhs mission!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &61 Mythic Crate Key&4!"));
+						
+						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "crate key " + 
+								file.getString("missions_and_users." + key + ".username") + " Mythic 1");
+						
+						file.set("missions_and_users." + key + ".mission", 8);
+						file.set("missions_and_users." + key + ".fishing_counter", null);
 						Main.saveData();
+						
 						return;
+						
 					}
 					
 				}

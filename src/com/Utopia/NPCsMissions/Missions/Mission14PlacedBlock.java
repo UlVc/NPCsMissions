@@ -182,7 +182,7 @@ public class Mission14PlacedBlock implements Listener {
 							file.getBoolean("missions_and_users." + key + ".placed_concrete_powder.black")) {
 						
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the place and craft 1 block of every color of concrete powder mission!"));
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You recieved &6$1,000,000 &4!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &6$1,000,000 &4!"));
 
 						for (Player online : plugin.getServer().getOnlinePlayers())
 							online.getWorld().playSound(online.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);

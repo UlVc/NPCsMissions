@@ -1,13 +1,11 @@
 package com.Utopia.NPCsMissions.Missions;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.plugin.Plugin;
 
 import com.Utopia.NPCsMissions.Main;
 
@@ -16,8 +14,7 @@ import net.md_5.bungee.api.ChatColor;
 public class Mission13 implements Listener {
 	
 	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
-	private Plugin plugin = Main.getPlugin(Main.class);
-	
+
 	@EventHandler
     public void placeBlocks(BlockPlaceEvent event) {
 		
@@ -44,10 +41,7 @@ public class Mission13 implements Listener {
 					if (file.getInt("missions_and_users." + key + ".placed_blocks") == 500) {
 						
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the place 500 blocks mission!"));
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You recieved &63 Spawner Keys&4!"));
-
-						for (Player online : plugin.getServer().getOnlinePlayers())
-							online.getWorld().playSound(online.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &63 Spawner Keys&4!"));
 						
 						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "crate key " + 
 								file.getString("missions_and_users." + key + ".username") + " Spawner 3");

@@ -45,7 +45,7 @@ public class Mission15 implements Listener {
 					if (file.getInt("missions_and_users." + key + ".killed_mobs_counter") == 500) {
 						
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the kill 500 hostile mobs mission!"));
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You recieved &61 beacon&4!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &61 beacon&4!"));
 						
 						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "give " + 
 								file.getString("missions_and_users." + key + ".username") + " beacon 1");
