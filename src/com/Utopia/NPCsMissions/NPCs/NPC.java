@@ -49,7 +49,6 @@ public class NPC {
 		
 		addNPCPacket(npc);
 		NPC.add(npc); 
-		System.out.println(NPC);
 		
 		int var = 1;
 		if (Main.getData().contains("data"))

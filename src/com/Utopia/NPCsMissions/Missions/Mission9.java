@@ -14,7 +14,7 @@ import com.Utopia.NPCsMissions.Main;
 
 import net.md_5.bungee.api.ChatColor;
 
-public class Missions implements Listener {
+public class Mission9 implements Listener {
 
 	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
 	private Plugin plugin = Main.getPlugin(Main.class);
@@ -31,25 +31,35 @@ public class Missions implements Listener {
 					
 					Player player = (Player) event.getWhoClicked();
 					ItemStack item = event.getCurrentItem();
+					int count = Main.getData().getInt("missions_and_users." + key + ".crafting.fireworks");
 					
-					System.out.println(item.getType());
-					System.out.println(item.getData());
-
-					if (item.getType().equals(Material.DIAMOND_AXE)) {
+					if (item.getType().equals(Material.FIREWORK)) {
+						
+						Main.getData().set("missions_and_users." + key + ".crafting.fireworks", count + 1);
+						Main.saveData();
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a firework. Fireworks left: " + (63-count)));
+						
+					}
+					
+					if (Main.getData().getInt("missions_and_users." + key + ".crafting.fireworks") == 64) {
 						
 						player.sendMessage(prefix + ChatColor.LIGHT_PURPLE + "You were given " + ChatColor.GREEN + " 10 points of experience");
 						player.giveExp(10);
 
 						plugin.getServer().broadcastMessage(prefix + ChatColor.YELLOW + player.getName() + ChatColor.LIGHT_PURPLE
-								+ " has crafted " + ChatColor.AQUA + "AXE OF ZEUS");
+								+ " completed the firework craft mission.");
 
 						for (Player online : plugin.getServer().getOnlinePlayers())
 							online.getWorld().playSound(online.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);
 						
-						Main.getData().set("missions_and_users." + key + ".mission", 2);
+						Main.getData().set("missions_and_users." + key + ".crafting", null);
+						Main.getData().set("missions_and_users." + key + ".mission", 10);
 						Main.saveData();
+						
 						return;
+						
 					}
+					
 				}
 				
 			});

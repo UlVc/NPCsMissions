@@ -8,12 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.Utopia.NPCsMissions.Main;
-import com.Utopia.NPCsMissions.PacketReader;
 import com.Utopia.NPCsMissions.NPCs.ClickNPC;
 import com.Utopia.NPCsMissions.NPCs.NPC;
 import com.Utopia.NPCsMissions.NPCs.RightClickNPC;
-
-import net.minecraft.server.v1_12_R1.EntityPlayer;
 
 public class RemoveNPC implements CommandExecutor {
 	
@@ -48,16 +45,16 @@ public class RemoveNPC implements CommandExecutor {
 			return true;
 		}
 		
+		for (Player p : Bukkit.getOnlinePlayers())
+			NPC.removeNPC(p, npcSelected.getNPC());
+		
 		NPC.removeNPC(npcSelected);
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			PacketReader reader = new PacketReader();
-			reader.uninject(p);
-			for (EntityPlayer npc : NPC.getNPCs())
-				NPC.removeNPC(p, npc);
-		}
+
 		npcClicked.resetNPCSelected();
 		plugin.loadNPC();
+		
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcRemoved));
+		
 		return true;
 		
 	}

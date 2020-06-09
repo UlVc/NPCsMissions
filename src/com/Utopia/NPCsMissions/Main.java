@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.Utopia.NPCsMissions.Events.Join;
 import com.Utopia.NPCsMissions.Files.DataManager;
-import com.Utopia.NPCsMissions.Missions.Missions;
+import com.Utopia.NPCsMissions.Missions.*;
 import com.Utopia.NPCsMissions.NPCs.ClickNPC;
 import com.Utopia.NPCsMissions.NPCs.NPC;
 import com.Utopia.NPCsMissions.commands.*;
@@ -38,6 +38,12 @@ public class Main extends JavaPlugin implements Listener{
 		this.getServer().getPluginManager().registerEvents(new Join(), this);
 		this.getServer().getPluginManager().registerEvents(npcClicked, this);
 		this.getServer().getPluginManager().registerEvents(new Missions(), this);
+		this.getServer().getPluginManager().registerEvents(new Mission2(), this);
+		this.getServer().getPluginManager().registerEvents(new Mission3(), this);
+		this.getServer().getPluginManager().registerEvents(new Mission4(), this);
+		this.getServer().getPluginManager().registerEvents(new Mission7(), this);
+		this.getServer().getPluginManager().registerEvents(new Mission9(), this);
+		this.getServer().getPluginManager().registerEvents(new Mission10(), this);
 		
 		new CreateNPC(this);
 		new RemoveNPC(this, npcClicked);
@@ -70,7 +76,7 @@ public class Main extends JavaPlugin implements Listener{
 	
 	public void loadNPC() {
 		FileConfiguration file = data.getConfig();
-		file.getConfigurationSection("data").getKeys(false).forEach(npc ->{
+		file.getConfigurationSection("data").getKeys(false).forEach(npc -> {
 			Location location = new Location(Bukkit.getWorld(file.getString("data." + npc + ".world")),
 					file.getInt("data." + npc + ".x"), file.getInt("data." + npc + ".y"), file.getInt("data." + npc + ".z"));
 			location.setPitch((float) file.getDouble("data." + npc + ".p"));
