@@ -46,6 +46,7 @@ public class Main extends JavaPlugin implements Listener{
 		this.getServer().getPluginManager().registerEvents(new Mission10CraftedBlock(), this);
 		this.getServer().getPluginManager().registerEvents(new Mission10PlacedBlock(), this);
 		this.getServer().getPluginManager().registerEvents(new Mission11(), this);
+		this.getServer().getPluginManager().registerEvents(new Mission12(), this);
 		
 		new CreateNPC(this);
 		new RemoveNPC(this, npcClicked);
