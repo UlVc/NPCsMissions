@@ -19,7 +19,7 @@ public class Mission13 implements Listener {
 	private Plugin plugin = Main.getPlugin(Main.class);
 	
 	@EventHandler
-    public void placeBlockSpawner(BlockPlaceEvent event) {
+    public void placeBlocks(BlockPlaceEvent event) {
 		
 		FileConfiguration file = Main.getData();
         
