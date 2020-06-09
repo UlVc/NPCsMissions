@@ -26,7 +26,7 @@ public class Mission15 implements Listener {
 		if (file.contains("missions_and_users")) {
 			file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
 				
-				if (file.getInt("missions_and_users." + key + ".mission") == 1 &&
+				if (file.getInt("missions_and_users." + key + ".mission") == 15 &&
 						event.getEntity().getKiller().toString().contains(file.getString("missions_and_users." + key + ".username")) &&
 						event.getEntity() instanceof Monster) {
 					
