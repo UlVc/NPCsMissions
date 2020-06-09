@@ -39,7 +39,7 @@ public class Mission7 implements Listener {
 
 					}
 					
-					if (count > 1) {
+					if (count > 127) {
 						
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the fish 128 thinhs mission!"));
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &61 Mythic Crate Key&4!"));
