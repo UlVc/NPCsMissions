@@ -19,7 +19,7 @@ public class Mission12 implements Listener {
 	private Plugin plugin = Main.getPlugin(Main.class);
 
 	@EventHandler
-	public void blockBreakOres(BlockBreakEvent event) {
+	public void mineBlocks(BlockBreakEvent event) {
 		FileConfiguration file = Main.getData();
 		
 		if (file.contains("missions_and_users")) {
