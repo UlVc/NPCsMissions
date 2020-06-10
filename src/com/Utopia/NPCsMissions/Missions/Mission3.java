@@ -15,7 +15,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Mission3 implements Listener {
 
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 
 	@EventHandler
 	public void craftingReward(CraftItemEvent event) {
@@ -71,7 +71,7 @@ public class Mission3 implements Listener {
 							file.getBoolean("missions_and_users." + key + ".crafting.gold_boots") &&
 							file.getBoolean("missions_and_users." + key + ".crafting.diamond_chestplate")) {
 						
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the crafting mission!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the crafting equipment mission!"));
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &61 Random Elite Enchant&4!"));
 						
 						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "ae giverandombook " + 

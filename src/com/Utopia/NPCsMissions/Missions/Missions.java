@@ -16,7 +16,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Missions implements Listener {
 
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 	private Plugin plugin = Main.getPlugin(Main.class);
 
 	@EventHandler

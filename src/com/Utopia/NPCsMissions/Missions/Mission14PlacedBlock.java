@@ -2,7 +2,6 @@ package com.Utopia.NPCsMissions.Missions;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -10,7 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
 import com.Utopia.NPCsMissions.Main;
 
@@ -18,8 +16,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Mission14PlacedBlock implements Listener {
 
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
-	private Plugin plugin = Main.getPlugin(Main.class);
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 
 	@EventHandler
 	public void placedConcretePowder(BlockPlaceEvent event) {
@@ -181,16 +178,13 @@ public class Mission14PlacedBlock implements Listener {
 							file.getBoolean("missions_and_users." + key + ".placed_concrete_powder.red") &&
 							file.getBoolean("missions_and_users." + key + ".placed_concrete_powder.black")) {
 						
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the place and craft 1 block of every color of concrete powder mission!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the place and craft 1 block of every color of concrete powder mission!"));
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &6$1,000,000 &4!"));
-
-						for (Player online : plugin.getServer().getOnlinePlayers())
-							online.getWorld().playSound(online.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);
 						
 						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "eco give " + 
 								file.getString("missions_and_users." + key + ".username") + " 1000000");
 						
-						file.set("missions_and_users." + key + ".placed_concrete_powder", null);
+						file.set("missions_and_users." + key + ".crafted_concrete_powder", null);
 						file.set("missions_and_users." + key + ".placed_concrete_powder", null);
 						file.set("missions_and_users." + key + ".mission", 15);
 						Main.saveData();

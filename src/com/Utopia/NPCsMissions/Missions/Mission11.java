@@ -2,23 +2,20 @@ package com.Utopia.NPCsMissions.Missions;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.plugin.Plugin;
 
 import com.Utopia.NPCsMissions.Main;
 
 import net.md_5.bungee.api.ChatColor;
 
 public class Mission11 implements Listener {
-
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
-	private Plugin plugin = Main.getPlugin(Main.class);
+	
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 
 	@EventHandler
 	public void blockBreakOres(BlockBreakEvent event) {
@@ -84,11 +81,8 @@ public class Mission11 implements Listener {
 							file.getInt("missions_and_users." + key + ".ores_broken.diamond") == 16 &&
 							file.getInt("missions_and_users." + key + ".ores_broken.emerald") == 16) {
 						
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the break ores mission!"));
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You recieved a &6gamble voucher&4!"));
-
-						for (Player online : plugin.getServer().getOnlinePlayers())
-							online.getWorld().playSound(online.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the break ores mission!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved a &6gamble voucher&4!"));
 						
 						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "voucher give Random_11 " + 
 								file.getString("missions_and_users." + key + ".username"));

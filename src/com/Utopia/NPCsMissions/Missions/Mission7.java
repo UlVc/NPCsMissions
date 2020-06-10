@@ -14,7 +14,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Mission7 implements Listener {
 
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 
 	@EventHandler
 	public void fishingEvent(PlayerFishEvent event) {
@@ -41,7 +41,7 @@ public class Mission7 implements Listener {
 					
 					if (count > 127) {
 						
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the fish 128 thinhs mission!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the fish 128 things mission!"));
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &61 Mythic Crate Key&4!"));
 						
 						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "crate key " + 

@@ -15,7 +15,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Mission4 implements Listener {
 	
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 	
 	@EventHandler
     public void placeBlockSpawner(BlockPlaceEvent event) {
@@ -34,7 +34,7 @@ public class Mission4 implements Listener {
 					
 					if (block.getType().equals(Material.MOB_SPAWNER)) {
 						
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the place down a spawner mission!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the place down a spawner mission!"));
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &61 Crate Key &fand &6$150,000&4!"));
 						
 						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "crate key " + 

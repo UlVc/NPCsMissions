@@ -14,129 +14,145 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Mission10CraftedBlock implements Listener {
 
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 
 	@EventHandler
-	public void craftingReward(CraftItemEvent event) {
+	public void craftedWool(CraftItemEvent event) {
 		FileConfiguration file = Main.getData();
 		
 		if (file.contains("missions_and_users")) {
 			file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
 				
-				if (file.getInt("missions_and_users." + key + ".mission") == 1 &&
+				if (file.getInt("missions_and_users." + key + ".mission") == 10 &&
 						event.getWhoClicked().toString().contains(file.getString("missions_and_users." + key + ".username"))) {
 					
 					Player player = (Player) event.getWhoClicked();
 					ItemStack item = event.getCurrentItem();
 					
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("WHITE WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("0") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.white") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a white wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.white_whool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.white", true);
 						Main.saveData();
 						return;
 					}
 
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("ORANGE WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("1") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.orange") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted an orange wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.orange_wool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.orange", true);
 						Main.saveData();
 						return;
 					}
 
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("MAGENTA WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("2") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.magenta") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a magenta wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.magenta_wool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.magenta", true);
 						Main.saveData();
 						return;
 					}
 
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("LIGHT_BLUE WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("3") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.light_blue") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a light blue wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.light_blue_wool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.light_blue", true);
 						Main.saveData();
 						return;
 					}
 
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("YELLOW WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("4") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.yellow") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a yellow wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.yellow_wool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.yellow", true);
 						Main.saveData();
 						return;
 					}
 
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("LIME WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("5") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.lime") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a lime wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.lime_wool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.lime", true);
 						Main.saveData();
 						return;
 					}
 	
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("PINK WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("6") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.pink") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a pink wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.pink_wool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.pink", true);
 						Main.saveData();
 						return;
 					}
 
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("GRAY WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("7") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.gray") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a gray wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.gray_wool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.gray", true);
 						Main.saveData();
 						return;
 					}
 
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("LIGHT_GRAY WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("8") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.light_gray") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a light gray wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.light_gray_wool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.light_gray", true);
 						Main.saveData();
 						return;
 					}
 
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("CYAN WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("9") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.cyan") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a cyan wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.cyan_wool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.cyan", true);
 						Main.saveData();
 						return;
 					}
 
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("PURPLE WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("10") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.purple") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a purple wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.purple_wool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.purple", true);
 						Main.saveData();
 						return;
 					}
 			
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("BLUE WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("11") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.blue") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a blue wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.blue_wool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.blue", true);
 						Main.saveData();
 						return;
 					}
 			
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("BROWN WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("12") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.brown") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a brown wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.brown_wool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.brown", true);
 						Main.saveData();
 						return;
 					}
 	
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("GREEN WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("13") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.green") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a green wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.green", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.green", true);
 						Main.saveData();
 						return;
 					}
 
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("RED WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("14") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.red") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a red wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.red_wool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.red", true);
 						Main.saveData();
 						return;
 					}
 					
-					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("BLACK WOOL")) {
+					if (item.getType().equals(Material.WOOL) && item.getData().toString().contains("15") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.black") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a black wool."));
-						Main.getData().set("missions_and_users." + key + ".crafted.black_wool", true);
+						Main.getData().set("missions_and_users." + key + ".crafted_wool.black", true);
 						Main.saveData();
 						return;
 					}

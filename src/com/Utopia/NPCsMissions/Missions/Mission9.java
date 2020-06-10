@@ -15,7 +15,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Mission9 implements Listener {
 
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 
 	@EventHandler
 	public void craftingReward(CraftItemEvent event) {
@@ -42,8 +42,8 @@ public class Mission9 implements Listener {
 					
 					if (Main.getData().getInt("missions_and_users." + key + ".crafted_fireworks") > 63) {
 						
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the craft 64 fireworks mission!"));
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You recieved a &6zombie spawner&4!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the craft 64 fireworks mission!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved a &6zombie spawner&4!"));
 						
 						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "spawner give zombie " + 
 								file.getString("missions_and_users." + key + ".username"));

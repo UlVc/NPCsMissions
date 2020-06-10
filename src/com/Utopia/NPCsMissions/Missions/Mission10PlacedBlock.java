@@ -1,7 +1,7 @@
 package com.Utopia.NPCsMissions.Missions;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -9,7 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
 import com.Utopia.NPCsMissions.Main;
 
@@ -17,165 +16,177 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Mission10PlacedBlock implements Listener {
 
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
-	private Plugin plugin = Main.getPlugin(Main.class);
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 
 	@EventHandler
-	public void craftingReward(BlockPlaceEvent event) {
+	public void placedConcretePowder(BlockPlaceEvent event) {
 		FileConfiguration file = Main.getData();
 		
 		if (file.contains("missions_and_users")) {
 			file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
 				
-				if (file.getInt("missions_and_users." + key + ".mission") == 1 &&
+				if (file.getInt("missions_and_users." + key + ".mission") == 10 &&
 						event.getPlayer().toString().contains(file.getString("missions_and_users." + key + ".username"))) {
 					
 					Player player = (Player) event.getPlayer();
 					Block block = event.getBlockPlaced();
 					ItemStack item = event.getItemInHand();
 					
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 0) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 0 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.white") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a white wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.white_whool", true);
+						file.set("missions_and_users." + key + ".placed_wool.white", true);
 						Main.saveData();
 					}
 					
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 1) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 1 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.orange") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed an orange wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.orange_whool", true);
+						file.set("missions_and_users." + key + ".placed_wool.orange", true);
 						Main.saveData();
 					}
 
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 2) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 2 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.magenta") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a magenta wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.magenta_whool", true);
+						file.set("missions_and_users." + key + ".placed_wool.magenta", true);
 						Main.saveData();
 					}
 
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 3) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 3 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.light_blue") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a light blue wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.light_blue_wool", true);
+						file.set("missions_and_users." + key + ".placed_wool.light_blue", true);
 						Main.saveData();
 					}
 					
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 4) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 4 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.yellow") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a yellow wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.yellow_wool", true);
+						file.set("missions_and_users." + key + ".placed_wool.yellow", true);
 						Main.saveData();
 					}
 
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 5) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 5 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.lime") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a lime wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.lime_wool", true);
+						file.set("missions_and_users." + key + ".placed_wool.lime", true);
 						Main.saveData();
 					}
 		
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 6) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 6 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.pink") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a pink wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.pink_wool", true);
+						file.set("missions_and_users." + key + ".placed_wool.pink", true);
 						Main.saveData();
 					}
 		
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 7) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 7 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.gray") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a gray wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.gray_wool", true);
+						file.set("missions_and_users." + key + ".placed_wool.gray", true);
 						Main.saveData();
 					}
 		
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 8) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 8 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.light_gray") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a light gray wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.light_gray_wool", true);
+						file.set("missions_and_users." + key + ".placed_wool.light_gray", true);
 						Main.saveData();
 					}
 					
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 9) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 9 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.cyan") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a cyan wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.cyan_wool", true);
+						file.set("missions_and_users." + key + ".placed_wool.cyan", true);
 						Main.saveData();
 					}
 		
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 10) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 10 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.purple") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a purple wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.purple_wool", true);
+						file.set("missions_and_users." + key + ".placed_wool.purple", true);
 						Main.saveData();
 					}
 		
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 11) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 11 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.blue") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a blue wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.blue_wool", true);
+						file.set("missions_and_users." + key + ".placed_wool.blue", true);
 						Main.saveData();
 					}
 						
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 12) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 12 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.brown") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a brown wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.brown_wool", true);
+						file.set("missions_and_users." + key + ".placed_wool.brown", true);
 						Main.saveData();
 					}
 
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 13) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 13 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.green") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a green wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.green", true);
+						file.set("missions_and_users." + key + ".placed_wool.green", true);
 						Main.saveData();
 					}
 
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 14) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 14 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.red") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a red wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.red_wool", true);
+						file.set("missions_and_users." + key + ".placed_wool.red", true);
 						Main.saveData();
 					}
 
-					if (block.getType().equals(Material.WOOL) && item.getDurability() == 15) {
+					if (block.getType().equals(Material.WOOL) && item.getDurability() == 15 &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.black") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You placed a black wool."));
-						Main.getData().set("missions_and_users." + key + ".placed.black_wool", true);
+						file.set("missions_and_users." + key + ".placed_wool.black", true);
 						Main.saveData();
 					}
 					
-					if (Main.getData().getBoolean("missions_and_users." + key + ".crafted.white_whool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.orange_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.magenta_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.light_blue_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.yellow_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.lime_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.pink_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.gray_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.light_gray_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.cyan_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.purple_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.blue_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.brown_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.green_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.red_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".crafted.black_wool") &&
+					if (file.getBoolean("missions_and_users." + key + ".crafted_wool.white") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.orange") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.magenta") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.light_blue") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.yellow") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.lime") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.pink") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.gray") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.light_gray") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.cyan") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.purple") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.blue") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.brown") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.green") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.red") &&
+							file.getBoolean("missions_and_users." + key + ".crafted_wool.black") &&
 							
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.white_whool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.orange_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.magenta_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.light_blue_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.yellow_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.lime_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.pink_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.gray_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.light_gray_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.cyan_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.purple_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.blue_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.brown_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.green_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.red_wool") &&
-							Main.getData().getBoolean("missions_and_users." + key + ".placed.black_wool")) {
+							file.getBoolean("missions_and_users." + key + ".placed_wool.white") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.orange") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.magenta") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.light_blue") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.yellow") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.lime") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.pink") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.gray") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.light_gray") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.cyan") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.purple") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.blue") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.brown") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.green") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.red") &&
+							file.getBoolean("missions_and_users." + key + ".placed_wool.black")) {
 						
-						player.sendMessage(prefix + ChatColor.LIGHT_PURPLE + "You were given " + ChatColor.GREEN + " 10 points of experience");
-						player.giveExp(10);
-
-						plugin.getServer().broadcastMessage(prefix + ChatColor.YELLOW + player.getName() + ChatColor.LIGHT_PURPLE
-								+ " completed the wool colors mission.");
-
-						for (Player online : plugin.getServer().getOnlinePlayers())
-							online.getWorld().playSound(online.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the place and craft 1 block of every color of wool mission!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &6$750,000 &4!"));
 						
-						Main.getData().set("missions_and_users." + key + ".crafted", null);
-						Main.getData().set("missions_and_users." + key + ".placed", null);
-						Main.getData().set("missions_and_users." + key + ".mission", 11);
+						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "eco give " + 
+								file.getString("missions_and_users." + key + ".username") + " 750000");
+						
+						file.set("missions_and_users." + key + ".crafted_wool", null);
+						file.set("missions_and_users." + key + ".placed_wool", null);
+						file.set("missions_and_users." + key + ".mission", 11);
 						Main.saveData();
 						
 						return;

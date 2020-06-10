@@ -1,14 +1,13 @@
 package com.Utopia.NPCsMissions.Missions;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
 import com.Utopia.NPCsMissions.Main;
 
@@ -16,8 +15,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Mission5 implements Listener {
 
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
-	private Plugin plugin = Main.getPlugin(Main.class);
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 
 	@EventHandler
 	public void craftingReward(CraftItemEvent event) {
@@ -32,7 +30,8 @@ public class Mission5 implements Listener {
 					Player player = (Player) event.getWhoClicked();
 					ItemStack item = event.getCurrentItem();
 					
-					if (item.getType().equals(Material.OBSERVER)) {
+					if (item.getType().equals(Material.OBSERVER) && 
+							Main.getData().getBoolean("missions_and_users." + key + ".crafting.observer") == false) {
 						
 						Main.getData().set("missions_and_users." + key + ".crafting.observer", true);
 						Main.saveData();
@@ -40,7 +39,8 @@ public class Mission5 implements Listener {
 						
 					}
 					
-					if (item.getType().equals(Material.DROPPER)) {
+					if (item.getType().equals(Material.DROPPER) && 
+							Main.getData().getBoolean("missions_and_users." + key + ".crafting.dropper") == false) {
 						
 						Main.getData().set("missions_and_users." + key + ".crafting.dropper", true);
 						Main.saveData();
@@ -48,7 +48,8 @@ public class Mission5 implements Listener {
 						
 					}
 					
-					if (item.getType().equals(Material.DISPENSER)) {
+					if (item.getType().equals(Material.DISPENSER) && 
+							Main.getData().getBoolean("missions_and_users." + key + ".crafting.dispenser") == false) {
 						
 						Main.getData().set("missions_and_users." + key + ".crafting.dispenser", true);
 						Main.saveData();
@@ -56,7 +57,8 @@ public class Mission5 implements Listener {
 						
 					}
 					
-					if (item.getType().equals(Material.REDSTONE_COMPARATOR)) {
+					if (item.getType().equals(Material.REDSTONE_COMPARATOR) && 
+							Main.getData().getBoolean("missions_and_users." + key + ".crafting.redstone_comparator") == false) {
 						
 						Main.getData().set("missions_and_users." + key + ".crafting.redstone_comparator", true);
 						Main.saveData();
@@ -64,7 +66,8 @@ public class Mission5 implements Listener {
 						
 					}
 					
-					if (item.getType().equals(Material.DIODE)) {
+					if (item.getType().equals(Material.DIODE) && 
+							Main.getData().getBoolean("missions_and_users." + key + ".crafting.redstone_repeater") == false) {
 						
 						Main.getData().set("missions_and_users." + key + ".crafting.redstone_repeater", true);
 						Main.saveData();
@@ -72,7 +75,8 @@ public class Mission5 implements Listener {
 						
 					}
 
-					if (item.getType().equals(Material.RAILS)) {
+					if (item.getType().equals(Material.RAILS) && 
+							Main.getData().getBoolean("missions_and_users." + key + ".crafting.rail") == false) {
 						
 						Main.getData().set("missions_and_users." + key + ".crafting.rail", true);
 						Main.saveData();
@@ -80,7 +84,8 @@ public class Mission5 implements Listener {
 						
 					}
 						
-					if (item.getType().equals(Material.POWERED_RAIL)) {
+					if (item.getType().equals(Material.POWERED_RAIL) && 
+							Main.getData().getBoolean("missions_and_users." + key + ".crafting.powered_rail") == false) {
 						
 						Main.getData().set("missions_and_users." + key + ".crafting.powered_rail", true);
 						Main.saveData();
@@ -88,7 +93,8 @@ public class Mission5 implements Listener {
 						
 					}
 					
-					if (item.getType().equals(Material.NOTE_BLOCK)) {
+					if (item.getType().equals(Material.NOTE_BLOCK) && 
+							Main.getData().getBoolean("missions_and_users." + key + ".crafting.note_block") == false) {
 						
 						Main.getData().set("missions_and_users." + key + ".crafting.note_block", true);
 						Main.saveData();
@@ -105,14 +111,11 @@ public class Mission5 implements Listener {
 							Main.getData().getBoolean("missions_and_users." + key + ".crafting.powered_rail") &&
 							Main.getData().getBoolean("missions_and_users." + key + ".crafting.note_block")) {
 						
-						player.sendMessage(prefix + ChatColor.LIGHT_PURPLE + "You were given " + ChatColor.GREEN + " 10 points of experience");
-						player.giveExp(10);
-
-						plugin.getServer().broadcastMessage(prefix + ChatColor.YELLOW + player.getName() + ChatColor.LIGHT_PURPLE
-								+ " completed the redstone craft mission.");
-
-						for (Player online : plugin.getServer().getOnlinePlayers())
-							online.getWorld().playSound(online.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the crafting redstone mission!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved a &6Random Legendary Enchant&4!"));
+						
+						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "ae giverandombook " + 
+								file.getString("missions_and_users." + key + ".username") + " Legendary 1");
 						
 						Main.getData().set("missions_and_users." + key + ".crafting", null);
 						Main.getData().set("missions_and_users." + key + ".mission", 6);

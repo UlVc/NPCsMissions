@@ -4,6 +4,7 @@
 #
 # You can use formatting codes (https://minecraft.gamepedia.com/Formatting_codes)
 # Do not change the label <name_of_the_npc> (more will be added), you can delete it.
+# Use "" if you want to use '.
 # 
 # The command /reload it's not soported yet.
 #
@@ -15,7 +16,9 @@
 # /renameNPC: NPCsMissions.rename
 # Select an NPC: NPCsMissions.select (You have to use a diamond axe in the main hand and right click the NPC)
 #
-  
+
+plugin-prefix: "&4&lNPC's &6&lMissions &9&c>> &f"
+
 dont-have-permission: '&c&lYou do not have permission to run this command!'
 
 npc-created: '&c&lNPC Created! :)'

@@ -14,7 +14,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Mission2 implements Listener {
 	
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 	
 	@EventHandler
     public void visitTheNether(PlayerChangedWorldEvent event) {

@@ -1,13 +1,11 @@
 package com.Utopia.NPCsMissions.Missions;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.plugin.Plugin;
 
 import com.Utopia.NPCsMissions.Main;
 
@@ -15,8 +13,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Mission12 implements Listener {
 
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
-	private Plugin plugin = Main.getPlugin(Main.class);
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 
 	@EventHandler
 	public void mineBlocks(BlockBreakEvent event) {
@@ -41,11 +38,8 @@ public class Mission12 implements Listener {
 
 					if (file.getInt("missions_and_users." + key + ".blocks_mined") == 500) {
 						
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the mine 500 blocks mission!"));
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You recieved a &6heroic book&4!"));
-
-						for (Player online : plugin.getServer().getOnlinePlayers())
-							online.getWorld().playSound(online.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the mine 500 blocks mission!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved a &6heroic book&4!"));
 						
 						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "ae giverandombook " + 
 								file.getString("missions_and_users." + key + ".username") + " Heroic 1");

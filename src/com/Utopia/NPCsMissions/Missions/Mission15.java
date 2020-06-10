@@ -16,7 +16,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Mission15 implements Listener {
 
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 	private Plugin plugin = Main.getPlugin(Main.class);
 
 	@EventHandler
@@ -44,7 +44,7 @@ public class Mission15 implements Listener {
 					
 					if (file.getInt("missions_and_users." + key + ".killed_mobs_counter") == 500) {
 						
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the kill 500 hostile mobs mission!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the kill 500 hostile mobs mission!"));
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &61 beacon&4!"));
 						
 						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "give " + 

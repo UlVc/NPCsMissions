@@ -13,7 +13,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Mission13 implements Listener {
 	
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 
 	@EventHandler
     public void placeBlocks(BlockPlaceEvent event) {
@@ -40,7 +40,7 @@ public class Mission13 implements Listener {
 
 					if (file.getInt("missions_and_users." + key + ".placed_blocks") == 500) {
 						
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the place 500 blocks mission!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the place 500 blocks mission!"));
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &63 Spawner Keys&4!"));
 						
 						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "crate key " + 

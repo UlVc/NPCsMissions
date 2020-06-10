@@ -14,7 +14,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Mission14CraftedBlock implements Listener {
 
-	private String prefix = (ChatColor.GREEN + "NPC's Missions >> ");
+	private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 
 	@EventHandler
 	public void craftedConcretePowder(CraftItemEvent event) {
@@ -23,7 +23,7 @@ public class Mission14CraftedBlock implements Listener {
 		if (file.contains("missions_and_users")) {
 			file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
 				
-				if (file.getInt("missions_and_users." + key + ".mission") == 1 &&
+				if (file.getInt("missions_and_users." + key + ".mission") == 14 &&
 						event.getWhoClicked().toString().contains(file.getString("missions_and_users." + key + ".username"))) {
 					
 					Player player = (Player) event.getWhoClicked();
