@@ -16,6 +16,7 @@ public class ClickNPC implements Listener {
 	private Main plugin;
 	private RightClickNPC npcSelected;
 	private boolean detecter = true;
+	private boolean canHeDoMissionsAgain = true;
 	private int missionPlayer = 0;
 	
 	public ClickNPC(Main plugin) {
@@ -37,39 +38,47 @@ public class ClickNPC implements Listener {
         	int npcY = (int) event.getNPC().locY;
         	int npcZ = (int) event.getNPC().locZ;
         	
-        	file.getConfigurationSection("data").getKeys(false).forEach(npcKey -> {
-        		
-    			checkIfItsTheFirstMission(event);
-    			
-    			if (file.getInt("data." + npcKey + ".x") == npcX && file.getInt("data." + npcKey + ".y") == npcY && 
-    					file.getInt("data." + npcKey + ".z") == npcZ) {
-
-        			int numberOfMission = file.getInt("data." + npcKey + ".assigned_number_of_mission");
-
-        			checkTheMissionOfAPlayer(event);
-        			
-        			if (missionPlayer == 0 && numberOfMission == 1) {
-        				printMessages(event, 1);
-        				file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
-        		    		if (player.toString().contains(file.getString("missions_and_users." + key + ".username"))) {
-        		    			file.set("missions_and_users." + key + ".mission", 1);
-        		    			Main.saveData();
-        		    			return;
-        		    		}
-        				});
-        			}
-        			else if (missionPlayer == numberOfMission)
-        				printMessages(event, numberOfMission);
-        			else if (numberOfMission == 0)
-        				printMessages(event, 0);
-        			else {
-        				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "I'm not the guy you are searching for."));
-        				return;
-        			}
-        				
-    			}		
-    			
-    		});        
+        	file.getConfigurationSection("missions_and_users").getKeys(false).forEach(npcKey -> {
+        		if (file.getString("missions_and_users." + npcKey + ".username").equalsIgnoreCase(player.getName())) 
+        			canHeDoMissionsAgain = file.getInt("missions_and_users." + npcKey + ".can_he_do_missions_again") != -1;
+        	});
+        	
+        	if (this.canHeDoMissionsAgain)
+	        	file.getConfigurationSection("data").getKeys(false).forEach(npcKey -> {
+	        		
+	    			checkIfItsTheFirstMission(event);
+	    			
+	    			if (file.getInt("data." + npcKey + ".x") == npcX && file.getInt("data." + npcKey + ".y") == npcY && 
+	    					file.getInt("data." + npcKey + ".z") == npcZ) {	
+	
+	        			int numberOfMission = file.getInt("data." + npcKey + ".assigned_number_of_mission");
+	
+	        			checkTheMissionOfAPlayer(event);
+	        			
+	        			if (missionPlayer == 0 && numberOfMission == 1) {
+	        				printMessages(event, 1);
+	        				file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
+	        		    		if (player.toString().contains(file.getString("missions_and_users." + key + ".username"))) {
+	        		    			file.set("missions_and_users." + key + ".mission", 1);
+	        		    			Main.saveData();
+	        		    			return;
+	        		    		}
+	        				});
+	        			}
+	        			else if (missionPlayer == numberOfMission)
+	        				printMessages(event, numberOfMission);
+	        			else if (numberOfMission == 0)
+	        				printMessages(event, 0);
+	        			else {
+	        				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "I'm not the guy you are looking for."));
+	        				return;
+	        			}
+	        				
+	    			}		
+	    			
+	    		});        
+        	else
+        		player.sendMessage(ChatColor.translateAlternateColorCodes('&', "You can't do missions again."));
             
         }
     }

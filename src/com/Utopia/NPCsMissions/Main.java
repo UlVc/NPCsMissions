@@ -13,11 +13,31 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.Utopia.NPCsMissions.Events.Join;
 import com.Utopia.NPCsMissions.Files.DataManager;
-import com.Utopia.NPCsMissions.Missions.*;
+import com.Utopia.NPCsMissions.Missions.Mission10CraftedBlock;
+import com.Utopia.NPCsMissions.Missions.Mission10PlacedBlock;
+import com.Utopia.NPCsMissions.Missions.Mission11;
+import com.Utopia.NPCsMissions.Missions.Mission12;
+import com.Utopia.NPCsMissions.Missions.Mission13;
+import com.Utopia.NPCsMissions.Missions.Mission14CraftedBlock;
+import com.Utopia.NPCsMissions.Missions.Mission14PlacedBlock;
+import com.Utopia.NPCsMissions.Missions.Mission15;
+import com.Utopia.NPCsMissions.Missions.Mission2;
+import com.Utopia.NPCsMissions.Missions.Mission3;
+import com.Utopia.NPCsMissions.Missions.Mission4;
+import com.Utopia.NPCsMissions.Missions.Mission5;
+import com.Utopia.NPCsMissions.Missions.Mission6;
+import com.Utopia.NPCsMissions.Missions.Mission7;
+import com.Utopia.NPCsMissions.Missions.Mission8;
+import com.Utopia.NPCsMissions.Missions.Mission9;
 import com.Utopia.NPCsMissions.NPCs.ClickNPC;
 import com.Utopia.NPCsMissions.NPCs.NPC;
 import com.Utopia.NPCsMissions.NPCs.PacketReader;
-import com.Utopia.NPCsMissions.commands.*;
+import com.Utopia.NPCsMissions.commands.AssignNumberOfMission;
+import com.Utopia.NPCsMissions.commands.CreateNPC;
+import com.Utopia.NPCsMissions.commands.MoveNPCHere;
+import com.Utopia.NPCsMissions.commands.RemoveNPC;
+import com.Utopia.NPCsMissions.commands.RenameNPC;
+import com.Utopia.NPCsMissions.commands.SkipMission;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -29,9 +49,18 @@ public class Main extends JavaPlugin implements Listener{
 	public WorldGuardPlugin worldGuardPlugin;
 	public static DataManager data;
 	private ClickNPC npcClicked = new ClickNPC(this);
+	
+	//private Economy econ;
 
 	@Override
 	public void onEnable() {
+		
+		/*if (!setupEconomy()) {
+            this.getLogger().severe("Disabled due to no Vault dependency found!");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }*/
+
 		this.saveDefaultConfig();
 		
 		data = new DataManager(this);
@@ -41,7 +70,7 @@ public class Main extends JavaPlugin implements Listener{
 		
 		this.getServer().getPluginManager().registerEvents(new Join(), this);
 		this.getServer().getPluginManager().registerEvents(npcClicked, this);
-		this.getServer().getPluginManager().registerEvents(new Missions(), this);
+		//this.getServer().getPluginManager().registerEvents(new Mission1(econ), this);
 		this.getServer().getPluginManager().registerEvents(new Mission2(getWorldGuard()), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission3(), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission4(), this); //done
@@ -59,12 +88,13 @@ public class Main extends JavaPlugin implements Listener{
 		this.getServer().getPluginManager().registerEvents(new Mission14PlacedBlock(), this);//done
 		this.getServer().getPluginManager().registerEvents(new Mission15(), this); //done
 		
+		new AssignNumberOfMission(this, npcClicked);
 		new CreateNPC(this);
+		new MoveNPCHere(this, npcClicked);
 		new RemoveNPC(this, npcClicked);
 		new RenameNPC(this, npcClicked);
-		new MoveNPCHere(this, npcClicked);
-		new AssignNumberOfMission(this, npcClicked);
-		
+		new SkipMission(this);
+
 		if (data.getConfig().contains("data"))
 			loadNPC();
 		
@@ -124,4 +154,21 @@ public class Main extends JavaPlugin implements Listener{
         return (WorldGuardPlugin) plugin;
     }
 	
+	/*private boolean setupEconomy() {
+        if (Bukkit.getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        econ = rsp.getProvider();
+        return econ != null;
+    }
+
+    public Economy getEconomy() {
+        return econ;
+    }*/
+
 }

@@ -50,15 +50,14 @@ public class Mission15 implements Listener {
 						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "give " + 
 								file.getString("missions_and_users." + key + ".username") + " beacon 1");
 						
-						plugin.getServer().broadcastMessage(prefix + ChatColor.translateAlternateColorCodes('&', player.getName() 
-								+ " has &c&lfinished &6&lall the missions!"));
-
+						plugin.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', prefix + player.getName() + " has &c&lfinished &6&lall the missions!"));
+						
 						for (Player online : plugin.getServer().getOnlinePlayers())
 							online.getWorld().playSound(online.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);
 						
 						file.set("missions_and_users." + key + ".killed_mobs_counter", null);
 						file.set("missions_and_users." + key + ".mission", null);
-						file.set("missions_and_users." + key + ".can_he_do_missions_again", false);
+						file.set("missions_and_users." + key + ".can_he_do_missions_again", -1);
 						Main.saveData();
 						
 						return;

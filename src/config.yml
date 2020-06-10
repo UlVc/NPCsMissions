@@ -31,6 +31,8 @@ npc-renamed: '&c&lNPC renamed!'
 
 npc-assigned-mission: '&c&lThe NPC has now an asigned mission!'
 
+mission-skipped: '&c&lSkipped mission!'
+
 mission-0-display-message: 
   - 'Hey! I am <name_of_the_npc>'
   - '&8I am a cool NPC.' 
