@@ -2,24 +2,19 @@
 # Version: beta
 # Author: Ulrich (J4g3rNuBz)
 #
-# Do NOT use : in the text messages.
 # You can use formatting codes (https://minecraft.gamepedia.com/Formatting_codes)
 # Do not change the label <name_of_the_npc> (more will be added), you can delete it.
 # 
 # The command /reload it's not soported yet.
 #
 # Permissions:
+# /assignNumberOfMission: NPCsMissions.assign_number_of_mission
 # /createNPC: NPCsMissions.create
 # /moveNPCHere: NPCsMissions.movehere
 # /removeNPC: NPCsMissions.remove
 # /renameNPC: NPCsMissions.rename
 # Select an NPC: NPCsMissions.select (You have to use a diamond axe in the main hand and right click the NPC)
 #
-
-npc-message: 
-  - 'Hey! I am &l&9<name_of_the_npc>, &fhere is your mission'
-  - '&8Mission &csample' 
-  - '&6Good &cluck'
   
 dont-have-permission: '&c&lYou do not have permission to run this command!'
 
@@ -30,3 +25,55 @@ npc-moved: '&c&lNPC moved!'
 npc-removed: '&c&lNPC removed!'
 
 npc-renamed: '&c&lNPC renamed!'
+
+npc-assigned-mission: '&c&lThe NPC has now an asigned mission!'
+
+mission-0-display-message: 
+  - 'Hey! I am <name_of_the_npc>'
+  - '&8I am a cool NPC.' 
+  - '&6How are you?'
+
+mission-1-display-message:
+  - '<name_of_the_npc> &b&l>> &fBuy 5 Lottery Ticket at the same time'
+  
+mission-2-display-message:
+  - '<name_of_the_npc> &b&l>> &fVisit The Boss Arena'
+  
+mission-3-display-message:
+  - '<name_of_the_npc> &b&l>> &fCraft Leather Leggings, Iron Helmet, Gold Boots and a Diamond Chestplate'
+  
+mission-4-display-message:
+  - '<name_of_the_npc> &b&l>> &fPlace down a spawner'
+  
+mission-5-display-message:
+  - '<name_of_the_npc> &b&l>> &fCraft An Observer, Dropper, Dispenser, redstone comparator, redstone repeater, rail, powered rail, and a Note Block'
+  
+mission-6-display-message:
+  - '<name_of_the_npc> &b&l>> &fKill 3 Players In The Warzone'
+  
+mission-7-display-message:
+  - '<name_of_the_npc> &b&l>> &fFish 128 things'
+  
+mission-8-display-message:
+  - '<name_of_the_npc> &b&l>> &fClimb To The Highest Point Of The Spawn'
+  
+mission-9-display-message:
+  - '<name_of_the_npc> &b&l>> &fCraft 64 Fireworks'
+  
+mission-10-display-message:
+  - '<name_of_the_npc> &b&l>> &fCraft and place 1 of every color of wool'
+  
+mission-11-display-message:
+  - '<name_of_the_npc> &b&l>> &fBreak 32 Coal Ore, 32 Iron Ore, 32 Gold Ore, 16 Diamond Ore and 16 Emerald Ore'
+  
+mission-12-display-message:
+  - '<name_of_the_npc> &b&l>> &fMine 500 blocks'
+  
+mission-13-display-message:
+  - '<name_of_the_npc> &b&l>> &fPlace 500 blocks'
+  
+mission-14-display-message:
+  - '<name_of_the_npc> &b&l>> &fCraft and place 1 of every color of concrete'
+  
+mission-15-display-message:
+  - '<name_of_the_npc> &b&l>> &fKill 500 hostile mobs'

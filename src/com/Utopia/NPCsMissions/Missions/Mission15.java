@@ -58,6 +58,7 @@ public class Mission15 implements Listener {
 						
 						file.set("missions_and_users." + key + ".killed_mobs_counter", null);
 						file.set("missions_and_users." + key + ".mission", null);
+						file.set("missions_and_users." + key + ".can_he_do_missions_again", false);
 						Main.saveData();
 						
 						return;

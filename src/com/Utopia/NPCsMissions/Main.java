@@ -15,6 +15,7 @@ import com.Utopia.NPCsMissions.Files.DataManager;
 import com.Utopia.NPCsMissions.Missions.*;
 import com.Utopia.NPCsMissions.NPCs.ClickNPC;
 import com.Utopia.NPCsMissions.NPCs.NPC;
+import com.Utopia.NPCsMissions.NPCs.PacketReader;
 import com.Utopia.NPCsMissions.commands.*;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -56,6 +57,7 @@ public class Main extends JavaPlugin implements Listener{
 		new RemoveNPC(this, npcClicked);
 		new RenameNPC(this, npcClicked);
 		new MoveNPCHere(this, npcClicked);
+		new AssignNumberOfMission(this, npcClicked);
 		
 		if (data.getConfig().contains("data"))
 			loadNPC();

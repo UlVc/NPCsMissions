@@ -8,9 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.Utopia.NPCsMissions.Main;
-import com.Utopia.NPCsMissions.PacketReader;
 import com.Utopia.NPCsMissions.NPCs.ClickNPC;
 import com.Utopia.NPCsMissions.NPCs.NPC;
+import com.Utopia.NPCsMissions.NPCs.PacketReader;
 import com.Utopia.NPCsMissions.NPCs.RightClickNPC;
 
 import net.minecraft.server.v1_12_R1.EntityPlayer;

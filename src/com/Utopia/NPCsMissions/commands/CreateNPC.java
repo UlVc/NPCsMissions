@@ -39,7 +39,7 @@ public class CreateNPC implements CommandExecutor {
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lI can't soport 16 characters or more yet!"));
 				return false;
 			}
-			NPC.createNPC(player, name, "&c&l");
+			NPC.createNPC(player, name, "&6&l");
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcCreated));
 			plugin.reInjectPlayers();
 			return true;
@@ -51,7 +51,7 @@ public class CreateNPC implements CommandExecutor {
 		}
 		
 		if (args.length < 2) {
-			NPC.createNPC(player, args[0], "&c&l");
+			NPC.createNPC(player, args[0], "&6&l");
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcCreated));
 			plugin.reInjectPlayers();
 			return true;

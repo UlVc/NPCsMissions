@@ -32,17 +32,22 @@ import net.minecraft.server.v1_12_R1.PlayerInteractManager;
 import net.minecraft.server.v1_12_R1.WorldServer;
 
 public class NPC {
-
+	
+	private static int assignedNumberOfMission;
 	private static List<EntityPlayer> NPC = new ArrayList<EntityPlayer>();
 	
 	public static void createNPC(Player player, String skin, String colorFormat) {
+		
+		assignedNumberOfMission = 0;
 		
 		MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
 		WorldServer world = ((CraftWorld) Bukkit.getWorld(player.getWorld().getName())).getHandle();
 		GameProfile gameProfile = new GameProfile(UUID.randomUUID(), ChatColor.translateAlternateColorCodes('&', colorFormat + skin));
 		EntityPlayer npc = new EntityPlayer(server, world, gameProfile, new PlayerInteractManager(world));
+		
 		npc.setLocation(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(),
 				player.getLocation().getYaw(), player.getLocation().getPitch());
+		npc.removeScoreboardTag(skin);
 		
 		String[] name = getSkin(player, skin);
 		gameProfile.getProperties().put("textures", new Property("textures", name[0], name[1]));
@@ -52,7 +57,7 @@ public class NPC {
 		
 		int var = 1;
 		if (Main.getData().contains("data"))
-			var = Main.getData().getConfigurationSection("data").getKeys(false).size() + 1; // Only childs
+			var = Main.getData().getConfigurationSection("data").getKeys(false).size() + 1;
 		
 		Main.getData().set("data." + var + ".x", (int) player.getLocation().getX());
 		Main.getData().set("data." + var + ".y", (int) player.getLocation().getY());
@@ -63,8 +68,13 @@ public class NPC {
 		Main.getData().set("data." + var + ".name", skin);
 		Main.getData().set("data." + var + ".text", name[0]);
 		Main.getData().set("data." + var + ".signature", name[1]);
+		Main.getData().set("data." + var + ".assigned_number_of_mission", assignedNumberOfMission);
 		Main.saveData();
 		
+	}
+	
+	public static int getAssignedNumberOfMission() {
+		return assignedNumberOfMission;
 	}
 	
 	public static void loadNPC(Location location, GameProfile profile) {
@@ -72,6 +82,7 @@ public class NPC {
 		WorldServer world = ((CraftWorld) Bukkit.getWorld(location.getWorld().getName())).getHandle();
 		GameProfile gameProfile = profile;
 		EntityPlayer npc = new EntityPlayer(server, world, gameProfile, new PlayerInteractManager(world));
+		
 		npc.setLocation(location.getX(), location.getY(), location.getZ(),
 				location.getYaw(), location.getPitch());
 		
@@ -193,6 +204,28 @@ public class NPC {
 				Main.getData().set("data." + key + ".z", (int) player.getLocation().getZ());
 				Main.getData().set("data." + key + ".pitch", player.getLocation().getPitch());
 				Main.getData().set("data." + key + ".yaw", player.getLocation().getYaw());
+				Main.saveData();
+				return;
+			}		
+			
+		});
+		
+	}
+
+	public static void assignNumberOfMission(RightClickNPC npcSelected, int mission) {
+		
+		int npcX = (int) npcSelected.getNPC().locX;
+		int npcY = (int) npcSelected.getNPC().locY;
+		int npcZ = (int) npcSelected.getNPC().locZ;
+		
+		FileConfiguration file = Main.getData();
+		
+		file.getConfigurationSection("data").getKeys(false).forEach(key -> {
+			
+			if (file.getInt("data." + key + ".x") == npcX && 
+					file.getInt("data." + key + ".y") == npcY && 
+					file.getInt("data." + key + ".z") == npcZ) {
+				Main.getData().set("data." + key + ".assigned_number_of_mission", mission);
 				Main.saveData();
 				return;
 			}		

@@ -16,6 +16,7 @@ public class ClickNPC implements Listener {
 	private Main plugin;
 	private RightClickNPC npcSelected;
 	private boolean detecter = true;
+	private int missionPlayer = 0;
 	
 	public ClickNPC(Main plugin) {
 		this.plugin = plugin;
@@ -24,51 +25,112 @@ public class ClickNPC implements Listener {
     @SuppressWarnings("deprecation")
 	@EventHandler
     public void onClick(RightClickNPC event) {
+    	FileConfiguration file = Main.getData();
     	Player player = event.getPlayer();
     	
     	if (player.getItemInHand().getType().equals(Material.DIAMOND_AXE) && player.hasPermission("NPCsMissions.select")) {
         	player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNPC Selected! &6&l(&6&l" + event.getNPC().getName() + "&6&l)"));
-        	npcSelected = event;
-        } else {  
-            List<String> list = this.plugin.getConfig().getStringList("npc-message");
-            FileConfiguration file = Main.getData();
+        	this.npcSelected = event;
+        } else {
             
-            for (String s : list)
-            	if (s.contains("<name_of_the_npc>")) {
-            		String replaced = s.replace("<name_of_the_npc>", event.getNPC().getName());
-            		player.sendMessage(ChatColor.translateAlternateColorCodes('&', replaced));
-            	} else 
-            		player.sendMessage(ChatColor.translateAlternateColorCodes('&', s));  	
-            
-            if (file.contains("missions_and_users")) {
-    			file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
-    				
-    				if (event.getPlayer().toString().contains(file.getString("missions_and_users." + key + ".username"))) {
-    					detecter = false;
-    					return;
-    				}  					
-			
-    			});
-    			
-    			if (detecter) {
-    				int var = Main.getData().getConfigurationSection("missions_and_users").getKeys(false).size() + 1; // Only childs
-        			
-        			file.set("missions_and_users." + var + ".username", player.getName());
-            		file.set("missions_and_users." + var + ".mission", 1);
-            		
-            		Main.saveData();
-    			}	
+        	int npcX = (int) event.getNPC().locX;
+        	int npcY = (int) event.getNPC().locY;
+        	int npcZ = (int) event.getNPC().locZ;
+        	
+        	file.getConfigurationSection("data").getKeys(false).forEach(npcKey -> {
         		
-        		return;
+    			checkIfItsTheFirstMission(event);
+    			
+    			if (file.getInt("data." + npcKey + ".x") == npcX && file.getInt("data." + npcKey + ".y") == npcY && 
+    					file.getInt("data." + npcKey + ".z") == npcZ) {
+
+        			int numberOfMission = file.getInt("data." + npcKey + ".assigned_number_of_mission");
+
+        			checkTheMissionOfAPlayer(event);
         			
-            } else {
-    			file.set("missions_and_users." + 1 + ".username", player.getName());
-        		file.set("missions_and_users." + 1 + ".mission", 1);
-        		Main.saveData();
-        		return;
-    		}
+        			if (missionPlayer == 0 && numberOfMission == 1) {
+        				printMessages(event, 1);
+        				file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
+        		    		if (player.toString().contains(file.getString("missions_and_users." + key + ".username"))) {
+        		    			file.set("missions_and_users." + key + ".mission", 1);
+        		    			Main.saveData();
+        		    			return;
+        		    		}
+        				});
+        			}
+        			else if (missionPlayer == numberOfMission)
+        				printMessages(event, numberOfMission);
+        			else if (numberOfMission == 0)
+        				printMessages(event, 0);
+        			else {
+        				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "I'm not the guy you are searching for."));
+        				return;
+        			}
+        				
+    			}		
+    			
+    		});        
             
         }
+    }
+    
+    private void printMessages(RightClickNPC event, int numberOfMission) {
+    	List<String> list = this.plugin.getConfig().getStringList("mission-" + numberOfMission + "-display-message");
+		
+		for (String s : list)
+        	if (s.contains("<name_of_the_npc>")) {
+        		String replaced = s.replace("<name_of_the_npc>", event.getNPC().getName());
+        		event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', replaced));
+        	} else 
+        		event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', s));
+    }
+    
+    private void checkTheMissionOfAPlayer(RightClickNPC event) {
+    	
+    	FileConfiguration file = Main.getData();
+    	Player player = event.getPlayer();
+    	
+    	if (file.contains("missions_and_users"))
+	    	file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
+	    		if (player.toString().contains(file.getString("missions_and_users." + key + ".username"))) {
+	    			missionPlayer = file.getInt("missions_and_users." + key + ".mission");
+	    			return;
+	    		}
+			});
+
+    }
+    
+    private void checkIfItsTheFirstMission(RightClickNPC event) {
+    	FileConfiguration file = Main.getData();
+    	Player player = event.getPlayer();
+    	
+    	if (file.contains("missions_and_users")) {
+			file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
+				
+				if (event.getPlayer().toString().contains(file.getString("missions_and_users." + key + ".username"))) {
+					detecter = false;
+					return;
+				}  					
+		
+			});
+			
+			if (detecter) {
+				int var = Main.getData().getConfigurationSection("missions_and_users").getKeys(false).size() + 1;
+    			
+    			file.set("missions_and_users." + var + ".username", player.getName());
+        		file.set("missions_and_users." + var + ".mission", 0);
+        		
+        		Main.saveData();
+			}	
+    		
+    		return;
+    			
+        } else {
+			file.set("missions_and_users." + 1 + ".username", player.getName());
+    		file.set("missions_and_users." + 1 + ".mission", 0);
+    		Main.saveData();
+    		return;
+		}
     }
     
     public RightClickNPC getNPCSelected() {

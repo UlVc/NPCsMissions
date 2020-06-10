@@ -33,10 +33,12 @@ public class RemoveNPC implements CommandExecutor {
 			sender.sendMessage(ChatColor.RED + "Sorry Console, you cannot use that command!");
 			return true;
 		}
+		
 		if (!(sender.hasPermission("NPCsMissions.remove"))) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermission));
 			return true;
 		}
+		
 		Player player = (Player) sender;
 		RightClickNPC npcSelected = npcClicked.getNPCSelected();
 		
