@@ -1,5 +1,6 @@
 package com.Utopia.NPCsMissions.Missions;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -37,14 +38,17 @@ public class Missions implements Listener {
 
 					if (item.getType().equals(Material.DIAMOND_AXE)) {
 						
-						player.sendMessage(prefix + ChatColor.LIGHT_PURPLE + "You were given " + ChatColor.GREEN + " 10 points of experience");
-						player.giveExp(10);
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the craft a diamond axe mission!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &6$300,000&4!"));
 
 						plugin.getServer().broadcastMessage(prefix + ChatColor.YELLOW + player.getName() + ChatColor.LIGHT_PURPLE
 								+ " has crafted " + ChatColor.AQUA + "AXE OF ZEUS");
 
 						for (Player online : plugin.getServer().getOnlinePlayers())
 							online.getWorld().playSound(online.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);
+						
+						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "eco give " + 
+								file.getString("missions_and_users." + key + ".username") + " 300000");
 						
 						Main.getData().set("missions_and_users." + key + ".mission", 2);
 						Main.saveData();

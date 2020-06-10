@@ -32,7 +32,7 @@ public class Mission2 implements Listener {
 					
 					if (world.getName().contentEquals("world_nether")) {
 						
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You finished the go to the nether mission!"));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the go to the nether mission!"));
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &6$300,000&4!"));
 						
 						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "eco give " + 

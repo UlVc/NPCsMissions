@@ -17,7 +17,7 @@
 # Select an NPC: NPCsMissions.select (You have to use a diamond axe in the main hand and right click the NPC)
 #
 
-plugin-prefix: "&4&lNPC's &6&lMissions &9&c>> &f"
+plugin-prefix: "&4&lNPC's &6&lMissions &c&l>> &f"
 
 dont-have-permission: '&c&lYou do not have permission to run this command!'
 

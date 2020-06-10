@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.Utopia.NPCsMissions.Events.Join;
@@ -19,11 +20,13 @@ import com.Utopia.NPCsMissions.NPCs.PacketReader;
 import com.Utopia.NPCsMissions.commands.*;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 import net.minecraft.server.v1_12_R1.EntityPlayer;
 
 public class Main extends JavaPlugin implements Listener{
 	
+	public WorldGuardPlugin worldGuardPlugin;
 	public static DataManager data;
 	private ClickNPC npcClicked = new ClickNPC(this);
 
@@ -44,6 +47,7 @@ public class Main extends JavaPlugin implements Listener{
 		this.getServer().getPluginManager().registerEvents(new Mission4(), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission5(), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission7(), this); //done
+		this.getServer().getPluginManager().registerEvents(new Mission8(getWorldGuard()), this);
 		this.getServer().getPluginManager().registerEvents(new Mission9(), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission10CraftedBlock(), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission10PlacedBlock(), this); //done
@@ -108,5 +112,15 @@ public class Main extends JavaPlugin implements Listener{
 				reader.inject(p);
 			}
 	}
+	
+	public WorldGuardPlugin getWorldGuard() {
+        Plugin plugin = this.getServer().getPluginManager().getPlugin("WorldGuard");
+
+        if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+            return null;
+        }
+
+        return (WorldGuardPlugin) plugin;
+    }
 	
 }
