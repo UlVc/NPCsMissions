@@ -42,12 +42,13 @@ public class Main extends JavaPlugin implements Listener{
 		this.getServer().getPluginManager().registerEvents(new Join(), this);
 		this.getServer().getPluginManager().registerEvents(npcClicked, this);
 		this.getServer().getPluginManager().registerEvents(new Missions(), this);
-		this.getServer().getPluginManager().registerEvents(new Mission2(getWorldGuard()), this);
+		this.getServer().getPluginManager().registerEvents(new Mission2(getWorldGuard()), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission3(), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission4(), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission5(), this); //done
+		this.getServer().getPluginManager().registerEvents(new Mission6(getWorldGuard()), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission7(), this); //done
-		this.getServer().getPluginManager().registerEvents(new Mission8(getWorldGuard()), this);
+		this.getServer().getPluginManager().registerEvents(new Mission8(getWorldGuard()), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission9(), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission10CraftedBlock(), this); //done
 		this.getServer().getPluginManager().registerEvents(new Mission10PlacedBlock(), this); //done
