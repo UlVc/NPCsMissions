@@ -38,9 +38,10 @@ public class ClickNPC implements Listener {
         	int npcY = (int) event.getNPC().locY;
         	int npcZ = (int) event.getNPC().locZ;
         	
-        	file.getConfigurationSection("missions_and_users").getKeys(false).forEach(npcKey -> {
-        		if (file.getString("missions_and_users." + npcKey + ".username").equalsIgnoreCase(player.getName())) 
-        			canHeDoMissionsAgain = file.getInt("missions_and_users." + npcKey + ".can_he_do_missions_again") != -1;
+        	if (file.contains("missions_and_users"))
+	        	file.getConfigurationSection("missions_and_users").getKeys(false).forEach(npcKey -> {
+	        		if (file.getString("missions_and_users." + npcKey + ".username").equalsIgnoreCase(player.getName())) 
+	        			canHeDoMissionsAgain = file.getInt("missions_and_users." + npcKey + ".can_he_do_missions_again") != -1;
         	});
         	
         	if (this.canHeDoMissionsAgain)

@@ -14,6 +14,7 @@ import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.Utopia.NPCsMissions.Main;
 import com.google.gson.JsonObject;
@@ -121,7 +122,14 @@ public class NPC {
 			PlayerConnection connection = ((CraftPlayer)player).getHandle().playerConnection;
 			connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
 			connection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
+			PacketPlayOutPlayerInfo packet3 = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc);
 			connection.sendPacket(new PacketPlayOutEntityHeadRotation(npc, (byte) (npc.yaw * 256 / 360)));
+			new BukkitRunnable() {
+	            @Override
+	        public void run() {
+	                connection.sendPacket(packet3);
+	            }
+	        }.runTaskLater(Main.getPlugin(Main.class), 50);
 		}
 	}
 	
@@ -135,7 +143,14 @@ public class NPC {
 			PlayerConnection connection = ((CraftPlayer)player).getHandle().playerConnection;
 			connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
 			connection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
+			PacketPlayOutPlayerInfo packet3 = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc);
 			connection.sendPacket(new PacketPlayOutEntityHeadRotation(npc, (byte) (npc.yaw * 256 / 360)));
+			new BukkitRunnable() {
+	            @Override
+	        public void run() {
+	                connection.sendPacket(packet3);
+	            }
+	        }.runTaskLater(Main.getPlugin(Main.class), 50);
 		}
 	}
 	
