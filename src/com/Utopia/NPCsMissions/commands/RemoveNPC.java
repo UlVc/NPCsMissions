@@ -53,7 +53,7 @@ public class RemoveNPC implements CommandExecutor {
 		NPC.removeNPC(npcSelected);
 
 		npcClicked.resetNPCSelected();
-		plugin.loadNPC();
+		Main.loadNPC();
 		
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcRemoved));
 		

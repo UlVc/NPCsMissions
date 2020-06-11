@@ -119,11 +119,14 @@ public class NPC {
 	
 	public static void addNPCPacket(EntityPlayer npc) {
 		for (Player player : Bukkit.getOnlinePlayers()) {
+			
 			PlayerConnection connection = ((CraftPlayer)player).getHandle().playerConnection;
+			PacketPlayOutPlayerInfo packet3 = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc);
+			
 			connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
 			connection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
-			PacketPlayOutPlayerInfo packet3 = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc);
 			connection.sendPacket(new PacketPlayOutEntityHeadRotation(npc, (byte) (npc.yaw * 256 / 360)));
+			
 			new BukkitRunnable() {
 	            @Override
 	        public void run() {
@@ -194,6 +197,7 @@ public class NPC {
 					file.getInt("data." + key + ".z") == npcZ) {
 				Main.getData().set("data." + key, null);
 				Main.saveData();
+				NPC.remove(npcSelected.getNPC());
 				return;
 			}		
 			

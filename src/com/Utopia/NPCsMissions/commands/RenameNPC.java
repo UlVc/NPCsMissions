@@ -50,14 +50,17 @@ public class RenameNPC implements CommandExecutor {
 		
 		NPC.renameNPC(args[0], npcSelected);
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcRenamed));
+		
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			PacketReader reader = new PacketReader();
 			reader.uninject(p);
 			for (EntityPlayer npc : NPC.getNPCs())
 				NPC.removeNPC(p, npc);
 		}
+		
 		npcClicked.resetNPCSelected();
-		this.plugin.loadNPC();
+		Main.loadNPC();
+		
 		return true;
 		
 	}

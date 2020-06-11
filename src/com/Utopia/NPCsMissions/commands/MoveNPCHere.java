@@ -56,7 +56,7 @@ public class MoveNPCHere implements CommandExecutor {
 				NPC.removeNPC(p, npc);
 		}
 		npcClicked.resetNPCSelected();
-		this.plugin.loadNPC();
+		Main.loadNPC();
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcMoved));
 		return true;
 		

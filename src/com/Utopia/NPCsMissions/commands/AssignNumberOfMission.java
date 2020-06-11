@@ -54,7 +54,7 @@ public class AssignNumberOfMission implements CommandExecutor {
 		try {
 			int mission = Integer.parseInt(args[0]);
 			
-			if (mission > 14) {
+			if (mission > 15) {
 				player.sendMessage(ChatColor.RED + "Use /assignNumberOfMission <number of the mission> where <number of the mission> is a number from 1 to 15");
 				return true;
 			}
