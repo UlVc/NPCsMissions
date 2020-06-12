@@ -53,8 +53,6 @@ public class MoveNPCHere implements CommandExecutor {
 		
 		npcClicked.resetNPCSelected();
 		
-		Main.loadNPC();
-		
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcMoved));
 		return true;
 		

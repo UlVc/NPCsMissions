@@ -223,6 +223,18 @@ public class NPC {
 				Main.getData().set("data." + key + ".pitch", player.getLocation().getPitch());
 				Main.getData().set("data." + key + ".yaw", player.getLocation().getYaw());
 				Main.saveData();
+				
+				Location location = new Location(Bukkit.getWorld(file.getString("data." + key + ".world")),
+						file.getInt("data." + key + ".x"), file.getInt("data." + key + ".y"), file.getInt("data." + key + ".z"));
+				location.setPitch((float) file.getDouble("data." + key + ".p"));
+				location.setYaw((float) file.getDouble("data." + key + ".yaw"));
+				
+				String name = file.getString("data." + key + ".name");
+				GameProfile gameProfile = new GameProfile(UUID.randomUUID(), ChatColor.GOLD + "" + ChatColor.BOLD + name);
+				gameProfile.getProperties().put("textures",new Property("textures", file.getString("data." + key + ".text"),
+						file.getString("data." + key + ".signature")));
+				
+				NPC.loadNPC(location, gameProfile);
 				return;
 			}		
 			
