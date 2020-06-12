@@ -10,10 +10,7 @@ import org.bukkit.entity.Player;
 import com.Utopia.NPCsMissions.Main;
 import com.Utopia.NPCsMissions.NPCs.ClickNPC;
 import com.Utopia.NPCsMissions.NPCs.NPC;
-import com.Utopia.NPCsMissions.NPCs.PacketReader;
 import com.Utopia.NPCsMissions.NPCs.RightClickNPC;
-
-import net.minecraft.server.v1_12_R1.EntityPlayer;
 
 public class RenameNPC implements CommandExecutor {
 	
@@ -51,12 +48,8 @@ public class RenameNPC implements CommandExecutor {
 		NPC.renameNPC(args[0], npcSelected);
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcRenamed));
 		
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			PacketReader reader = new PacketReader();
-			reader.uninject(p);
-			for (EntityPlayer npc : NPC.getNPCs())
-				NPC.removeNPC(p, npc);
-		}
+		for (Player p : Bukkit.getOnlinePlayers())
+			NPC.removeNPC(p, npcSelected.getNPC());
 		
 		npcClicked.resetNPCSelected();
 		Main.loadNPC();

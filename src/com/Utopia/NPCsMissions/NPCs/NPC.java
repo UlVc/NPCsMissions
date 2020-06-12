@@ -35,7 +35,7 @@ import net.minecraft.server.v1_12_R1.WorldServer;
 public class NPC {
 	
 	private static int assignedNumberOfMission;
-	private static List<EntityPlayer> NPC = new ArrayList<EntityPlayer>();
+	private static List<EntityPlayer> npcList = new ArrayList<EntityPlayer>();
 	
 	public static void createNPC(Player player, String skin, String colorFormat) {
 		
@@ -54,7 +54,7 @@ public class NPC {
 		gameProfile.getProperties().put("textures", new Property("textures", name[0], name[1]));
 		
 		addNPCPacket(npc);
-		NPC.add(npc); 
+		npcList.add(npc); 
 		
 		int var = 1;
 		if (Main.getData().contains("data"))
@@ -88,7 +88,7 @@ public class NPC {
 				location.getYaw(), location.getPitch());
 		
 		addNPCPacket(npc);
-		NPC.add(npc); 
+		npcList.add(npc); 
 	}
 	
 	private static String[] getSkin(Player player, String name) {
@@ -138,10 +138,11 @@ public class NPC {
 	public static void removeNPC(Player player, EntityPlayer npc) {
 		PlayerConnection connection = ((CraftPlayer)player).getHandle().playerConnection;
 		connection.sendPacket(new PacketPlayOutEntityDestroy(npc.getId()));
+		npcList.remove(npc);
 	}
 	
 	public static void addJoinPacket(Player player) {
-		for (EntityPlayer npc : NPC) {
+		for (EntityPlayer npc : npcList) {
 			PlayerConnection connection = ((CraftPlayer)player).getHandle().playerConnection;
 			connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
 			connection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
@@ -156,7 +157,7 @@ public class NPC {
 	}
 	
 	public static List<EntityPlayer> getNPCs() {
-		return NPC;
+		return npcList;
 	}
 	
 	public static void renameNPC(String name, RightClickNPC npcSelected) {
@@ -195,7 +196,7 @@ public class NPC {
 					file.getInt("data." + key + ".z") == npcZ) {
 				Main.getData().set("data." + key, null);
 				Main.saveData();
-				NPC.remove(npcSelected.getNPC());
+				npcList.remove(npcSelected.getNPC());
 				return;
 			}		
 			

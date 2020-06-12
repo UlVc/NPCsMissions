@@ -78,11 +78,11 @@ public class SkipMission implements CommandExecutor {
 						
 					} else if (file.getInt("missions_and_users." + key + ".mission") < mission &&
 							namePlayer.contains(file.getString("missions_and_users." + key + ".username"))) {
-						player.sendMessage(ChatColor.RED + "First finish the " + (mission-1) + " mission!");
+						player.sendMessage(ChatColor.RED + args[0] + " has not the " + (mission) + " mission!");
 						return;
 					} else if (file.getInt("missions_and_users." + key + ".mission") > mission &&
 							namePlayer.contains(file.getString("missions_and_users." + key + ".username"))) {
-						player.sendMessage(ChatColor.RED + player.getName() + " has already finished the " + (mission) + " mission!");
+						player.sendMessage(ChatColor.RED + args[0] + " has already finished the " + (mission) + " mission!");
 						return;
 					}
 					

@@ -15,8 +15,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.Utopia.NPCsMissions.Events.Join;
 import com.Utopia.NPCsMissions.Events.JoinWorld;
 import com.Utopia.NPCsMissions.Events.Respawn;
+import com.Utopia.NPCsMissions.Events.Teleport;
 import com.Utopia.NPCsMissions.Files.DataManager;
-import com.Utopia.NPCsMissions.Missions.Mission1;
 import com.Utopia.NPCsMissions.Missions.Mission10CraftedBlock;
 import com.Utopia.NPCsMissions.Missions.Mission10PlacedBlock;
 import com.Utopia.NPCsMissions.Missions.Mission11;
@@ -60,11 +60,11 @@ public class Main extends JavaPlugin implements Listener{
 	@Override
 	public void onEnable() {
 		
-		if (!setupEconomy()) {
+		/*if (!setupEconomy()) {
             this.getLogger().severe("Disabled due to no Vault dependency found!");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
-        }
+        }*/
 
 		this.saveDefaultConfig();
 		
@@ -76,8 +76,9 @@ public class Main extends JavaPlugin implements Listener{
 		this.getServer().getPluginManager().registerEvents(new Join(), this);
 		this.getServer().getPluginManager().registerEvents(new JoinWorld(), this);
 		this.getServer().getPluginManager().registerEvents(new Respawn(), this);
+		this.getServer().getPluginManager().registerEvents(new Teleport(), this);
 		this.getServer().getPluginManager().registerEvents(npcClicked, this);
-		this.getServer().getPluginManager().registerEvents(new Mission1(econ), this);
+		//this.getServer().getPluginManager().registerEvents(new Mission1(econ), this);
 		this.getServer().getPluginManager().registerEvents(new Mission2(getWorldGuard()), this);
 		this.getServer().getPluginManager().registerEvents(new Mission3(), this);
 		this.getServer().getPluginManager().registerEvents(new Mission4(), this);
@@ -152,9 +153,8 @@ public class Main extends JavaPlugin implements Listener{
 	public WorldGuardPlugin getWorldGuard() {
         Plugin plugin = this.getServer().getPluginManager().getPlugin("WorldGuard");
 
-        if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+        if (plugin == null || !(plugin instanceof WorldGuardPlugin))
             return null;
-        }
 
         return (WorldGuardPlugin) plugin;
     }

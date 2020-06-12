@@ -58,11 +58,9 @@ public class DataManager {
         if (this.configFile == null)
             this.configFile = new File(this.plugin.getDataFolder(), "data.yml");
         
-        if (!this.configFile.exists()) {
+        if (!this.configFile.exists())
             this.plugin.saveResource("data.yml", false);
-        }
-            
-        
+ 
     }
     
 }
