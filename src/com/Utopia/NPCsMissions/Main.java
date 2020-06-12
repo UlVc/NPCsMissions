@@ -13,6 +13,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.Utopia.NPCsMissions.Events.Join;
+import com.Utopia.NPCsMissions.Events.JoinWorld;
 import com.Utopia.NPCsMissions.Events.Respawn;
 import com.Utopia.NPCsMissions.Files.DataManager;
 import com.Utopia.NPCsMissions.Missions.Mission1;
@@ -73,6 +74,7 @@ public class Main extends JavaPlugin implements Listener{
 				"\n\n-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n Thanks for using NPC's Missions! \n-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n");
 		
 		this.getServer().getPluginManager().registerEvents(new Join(), this);
+		this.getServer().getPluginManager().registerEvents(new JoinWorld(), this);
 		this.getServer().getPluginManager().registerEvents(new Respawn(), this);
 		this.getServer().getPluginManager().registerEvents(npcClicked, this);
 		this.getServer().getPluginManager().registerEvents(new Mission1(econ), this);
@@ -102,8 +104,6 @@ public class Main extends JavaPlugin implements Listener{
 
 		if (data.getConfig().contains("data"))
 			loadNPC();
-		
-		reInjectPlayers();
 	}
 	
 	@Override
@@ -172,7 +172,7 @@ public class Main extends JavaPlugin implements Listener{
         return econ != null;
     }
 
-    public Economy getEconomy() {
+	public Economy getEconomy() {
         return econ;
     }
 

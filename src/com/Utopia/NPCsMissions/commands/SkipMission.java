@@ -68,8 +68,13 @@ public class SkipMission implements CommandExecutor {
 						
 						Main.saveData();
 						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', missionSkipped));
-						getRewars(mission, player);
-						return;
+						
+						for (Player p : Bukkit.getOnlinePlayers()) {
+							if (p.getName().equalsIgnoreCase(file.getString("missions_and_users." + key + ".username"))) {
+								getRewards(mission, p);
+								return;
+							}
+						}
 						
 					} else if (file.getInt("missions_and_users." + key + ".mission") < mission &&
 							namePlayer.contains(file.getString("missions_and_users." + key + ".username"))) {
@@ -92,7 +97,7 @@ public class SkipMission implements CommandExecutor {
 		
 	}
 	
-	private void getRewars(Integer mission, Player player) {
+	private void getRewards(Integer mission, Player player) {
 		
 		if (mission == 1) {
 			player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the Buy 5 Lottery Tickets at the same time!"));

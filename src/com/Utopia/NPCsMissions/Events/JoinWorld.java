@@ -4,7 +4,7 @@ import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.Utopia.NPCsMissions.Main;
@@ -16,10 +16,10 @@ import net.minecraft.server.v1_12_R1.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo;
 import net.minecraft.server.v1_12_R1.PlayerConnection;
 
-public class Respawn implements Listener {
+public class JoinWorld implements Listener {
 
     @EventHandler
-    public void respawn(PlayerRespawnEvent event) {
+    public void joinWorld(PlayerChangedWorldEvent event) {
     	
     	if (NPC.getNPCs() == null || NPC.getNPCs().isEmpty())
             return;
@@ -39,7 +39,7 @@ public class Respawn implements Listener {
         	        public void run() {
         	                connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc));
         	            }
-        	        }.runTaskLater(Main.getPlugin(Main.class), 50);
+        	        }.runTaskLater(Main.getPlugin(Main.class), 40);
         		}
             	
             }

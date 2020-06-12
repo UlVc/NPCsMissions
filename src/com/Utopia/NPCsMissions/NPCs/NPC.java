@@ -146,12 +146,11 @@ public class NPC {
 			PlayerConnection connection = ((CraftPlayer)player).getHandle().playerConnection;
 			connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
 			connection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
-			PacketPlayOutPlayerInfo packet3 = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc);
 			connection.sendPacket(new PacketPlayOutEntityHeadRotation(npc, (byte) (npc.yaw * 256 / 360)));
 			new BukkitRunnable() {
 	            @Override
 	        public void run() {
-	                connection.sendPacket(packet3);
+	                connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc));
 	            }
 	        }.runTaskLater(Main.getPlugin(Main.class), 50);
 		}
