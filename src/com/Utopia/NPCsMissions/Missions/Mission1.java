@@ -27,7 +27,6 @@ public class Mission1 implements Listener {
 		Player player = event.getPlayer();
 		@SuppressWarnings("deprecation")
 		double balance = econ.getBalance(event.getPlayer().getName());
-		System.out.println(balance);
 		
 		if (event.getMessage().equalsIgnoreCase("/lottery buy 5") && balance >= 250000 
 				&& file.contains("missions_and_users")) {

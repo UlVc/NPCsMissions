@@ -121,7 +121,6 @@ public class NPC {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			
 			PlayerConnection connection = ((CraftPlayer)player).getHandle().playerConnection;
-			PacketPlayOutPlayerInfo packet3 = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc);
 			
 			connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
 			connection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
@@ -130,7 +129,7 @@ public class NPC {
 			new BukkitRunnable() {
 	            @Override
 	        public void run() {
-	                connection.sendPacket(packet3);
+	                connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc));
 	            }
 	        }.runTaskLater(Main.getPlugin(Main.class), 50);
 		}

@@ -15,7 +15,6 @@ public class ClickNPC implements Listener {
 	
 	private Main plugin;
 	private RightClickNPC npcSelected;
-	private boolean detecter = true;
 	private boolean canHeDoMissionsAgain = true;
 	private int missionPlayer = 0;
 	
@@ -33,10 +32,6 @@ public class ClickNPC implements Listener {
         	player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNPC Selected! &6&l(&6&l" + event.getNPC().getName() + "&6&l)"));
         	this.npcSelected = event;
         } else {
-            
-        	int npcX = (int) event.getNPC().locX;
-        	int npcY = (int) event.getNPC().locY;
-        	int npcZ = (int) event.getNPC().locZ;
         	
         	if (file.contains("missions_and_users"))
 	        	file.getConfigurationSection("missions_and_users").getKeys(false).forEach(npcKey -> {
@@ -44,18 +39,21 @@ public class ClickNPC implements Listener {
 	        			canHeDoMissionsAgain = file.getInt("missions_and_users." + npcKey + ".can_he_do_missions_again") != -1;
         	});
         	
-        	if (this.canHeDoMissionsAgain)
-	        	file.getConfigurationSection("data").getKeys(false).forEach(npcKey -> {
-	        		
-	    			checkIfItsTheFirstMission(event);
+        	if (this.canHeDoMissionsAgain) {
+        		checkIfItsTheFirstMission(player);
+        		checkTheMissionOfAPlayer(player);
+    			
+    			int npcX = (int) event.getNPC().locX;
+            	int npcY = (int) event.getNPC().locY;
+            	int npcZ = (int) event.getNPC().locZ;
+            	
+            	file.getConfigurationSection("data").getKeys(false).forEach(npcKey -> {
 	    			
 	    			if (file.getInt("data." + npcKey + ".x") == npcX && file.getInt("data." + npcKey + ".y") == npcY && 
-	    					file.getInt("data." + npcKey + ".z") == npcZ) {	
+	    					file.getInt("data." + npcKey + ".z") == npcZ) {
 	
 	        			int numberOfMission = file.getInt("data." + npcKey + ".assigned_number_of_mission");
-	
-	        			checkTheMissionOfAPlayer(event);
-	        			
+
 	        			if (missionPlayer == 0 && numberOfMission == 1) {
 	        				printMessages(event, 1);
 	        				file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
@@ -71,13 +69,15 @@ public class ClickNPC implements Listener {
 	        			else if (numberOfMission == 0)
 	        				printMessages(event, 0);
 	        			else {
-	        				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "I'm not the guy you are looking for."));
+	        				player.sendMessage(ChatColor.translateAlternateColorCodes('&', event.getNPC().getName() + " &6&l>> &fI'm not the guy you are looking for."));
 	        				return;
 	        			}
-	        				
-	    			}		
+	        			return;
+	    			}
 	    			
-	    		});        
+	    		}); 
+        	}
+	        	       
         	else
         		player.sendMessage(ChatColor.translateAlternateColorCodes('&', "You can't do missions again."));
             
@@ -95,10 +95,9 @@ public class ClickNPC implements Listener {
         		event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', s));
     }
     
-    private void checkTheMissionOfAPlayer(RightClickNPC event) {
+    private void checkTheMissionOfAPlayer(Player player) {
     	
     	FileConfiguration file = Main.getData();
-    	Player player = event.getPlayer();
     	
     	if (file.contains("missions_and_users"))
 	    	file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
@@ -110,30 +109,27 @@ public class ClickNPC implements Listener {
 
     }
     
-    private void checkIfItsTheFirstMission(RightClickNPC event) {
+    private void checkIfItsTheFirstMission(Player player) {
     	FileConfiguration file = Main.getData();
-    	Player player = event.getPlayer();
     	
     	if (file.contains("missions_and_users")) {
-			file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
-				
-				if (event.getPlayer().toString().contains(file.getString("missions_and_users." + key + ".username"))) {
+    		boolean detecter = true;
+    		int var = Main.getData().getConfigurationSection("missions_and_users").getKeys(false).size();
+    		
+    		for (int i = 1; i <= var; i++) {
+    			if (player.getName().equalsIgnoreCase(file.getString("missions_and_users." + i + ".username"))) {
 					detecter = false;
 					return;
-				}  					
-		
-			});
-			
-			if (detecter) {
-				int var = Main.getData().getConfigurationSection("missions_and_users").getKeys(false).size() + 1;
-    			
-    			file.set("missions_and_users." + var + ".username", player.getName());
-        		file.set("missions_and_users." + var + ".mission", 0);
+				}
+    		}
+    		
+    		if (detecter) {
+    			file.set("missions_and_users." + (var+1) + ".username", player.getName());
+        		file.set("missions_and_users." + (var+1) + ".mission", 0);
         		
         		Main.saveData();
-			}	
-    		
-    		return;
+        		return;
+    		}
     			
         } else {
 			file.set("missions_and_users." + 1 + ".username", player.getName());
