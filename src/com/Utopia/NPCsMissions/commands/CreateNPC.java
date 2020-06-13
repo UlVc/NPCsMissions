@@ -41,6 +41,7 @@ public class CreateNPC implements CommandExecutor {
 			}
 			NPC.createNPC(player, name, "&6&l");
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcCreated));
+			plugin.reInjectPlayers();
 			return true;
 		}
 		
@@ -52,11 +53,13 @@ public class CreateNPC implements CommandExecutor {
 		if (args.length < 2) {
 			NPC.createNPC(player, args[0], "&6&l");
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcCreated));
+			plugin.reInjectPlayers();
 			return true;
 		}
 		
 		NPC.createNPC(player, args[0], args[1]);
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', npcCreated));
+		plugin.reInjectPlayers();
 		return true;
 	}
 	
