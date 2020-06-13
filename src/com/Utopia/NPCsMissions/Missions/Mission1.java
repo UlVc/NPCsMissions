@@ -33,7 +33,8 @@ public class Mission1 implements Listener {
 			
 			file.getConfigurationSection("missions_and_users").getKeys(false).forEach(key -> {
 				
-				if (file.getInt("missions_and_users." + key + ".mission") == 1) {
+				if (file.getInt("missions_and_users." + key + ".mission") == 1 && 
+						player.toString().contains(file.getString("missions_and_users." + key + ".username"))) {
 					
 					player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the Buy 5 Lottery Tickets at the same time!"));
 					player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &6a Kit Serf&4!"));
