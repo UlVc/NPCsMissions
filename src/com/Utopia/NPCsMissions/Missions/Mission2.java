@@ -22,7 +22,6 @@ public class Mission2 implements Listener {
 	
 	public WorldGuardPlugin worldGuardPlugin;
 	private ArrayList<Player> entered = new ArrayList<>();
-	private boolean detecter = false;
     private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 
     public Mission2(WorldGuardPlugin worldGuardPlugin) {
@@ -36,7 +35,6 @@ public class Mission2 implements Listener {
     }
 	
 	public void enterRegion(Player player) {
-		
 		FileConfiguration file = Main.getData();
 		
 		if (file.contains("missions_and_users")) {
@@ -55,29 +53,21 @@ public class Mission2 implements Listener {
 			                if (!entered.contains(player))
 			                    try {
 			                    	if (regions.getId().equalsIgnoreCase("Arena")) {
-			                    		detecter = true;
+			                    		player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix 
+			    								+ "You've finished the visit the Boss Arena mission!"));
+			    						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &6$300000&4!"));
+			    						
+			    						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "eco give " + 
+			    								file.getString("missions_and_users." + key + ".username") + " 300000");
+			    						
+			    						file.set("missions_and_users." + key + ".mission", 3);
+			    						Main.saveData();
 			                    		continue;
 			                    	}
 
 			                    } catch (Exception e) {
 			                        e.printStackTrace();
 			                    }
-					
-					if (detecter) {
-						
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix 
-								+ "You've finished the visit the Boss Arena mission!"));
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &6$300000&4!"));
-						
-						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "eco give " + 
-								file.getString("missions_and_users." + key + ".username") + " 300000");
-						
-						file.set("missions_and_users." + key + ".mission", 3);
-						Main.saveData();
-						
-						return;
-						
-					}
 					
 				}
 				

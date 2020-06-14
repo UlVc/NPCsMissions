@@ -41,7 +41,7 @@ mission-0-display-message:
   - '&6How are you?'
 
 mission-1-display-message:
-  - '<name_of_the_npc> &b&l>> &fBuy 5 Lottery Ticket at the same time'
+  - '<name_of_the_npc> &b&l>> &fHarvest 200 of wheat!'
   
 mission-2-display-message:
   - '<name_of_the_npc> &b&l>> &fVisit The Boss Arena'

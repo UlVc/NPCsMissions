@@ -29,8 +29,7 @@ public class Mission7 implements Listener {
 					int count = Main.getData().getInt("missions_and_users." + key + ".fishing_counter");
 					Player player = (Player) event.getPlayer();
 
-					if (State.CAUGHT_FISH.equals(event.getState()) && count < 128) {
-						
+					if (State.CAUGHT_FISH.equals(event.getState()) && count < 128) {	
 						player.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&',"You fished! &9[&a" + (count+1) + "&6/&a128&9]"));
 						
 						file.set("missions_and_users." + key + ".fishing_counter", count + 1);
@@ -39,7 +38,7 @@ public class Mission7 implements Listener {
 
 					}
 					
-					if (count > 127) {
+					if (count == 128) {
 						
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the fish 128 things mission!"));
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &61 Mythic Crate Key&4!"));

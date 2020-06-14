@@ -62,7 +62,7 @@ public class Mission5 implements Listener {
 						
 						Main.getData().set("missions_and_users." + key + ".crafting.redstone_comparator", true);
 						Main.saveData();
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a redstone repeater."));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a redstone comparator."));
 						
 					}
 					
@@ -71,7 +71,7 @@ public class Mission5 implements Listener {
 						
 						Main.getData().set("missions_and_users." + key + ".crafting.redstone_repeater", true);
 						Main.saveData();
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a redstone comparator."));
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a redstone repeater."));
 						
 					}
 

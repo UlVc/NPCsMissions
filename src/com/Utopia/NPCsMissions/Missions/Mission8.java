@@ -22,7 +22,6 @@ public class Mission8 implements Listener {
 	
 	public WorldGuardPlugin worldGuardPlugin;
 	private ArrayList<Player> entered = new ArrayList<>();
-	private boolean detecter = false;
     private String prefix = Main.getPlugin(Main.class).getConfig().getString("plugin-prefix");
 
     public Mission8(WorldGuardPlugin worldGuardPlugin) {
@@ -36,7 +35,6 @@ public class Mission8 implements Listener {
     }
 	
 	public void enterRegion(Player player) {
-		
 		FileConfiguration file = Main.getData();
 		
 		if (file.contains("missions_and_users")) {
@@ -55,29 +53,21 @@ public class Mission8 implements Listener {
 			                if (!entered.contains(player))
 			                    try {
 			                    	if (regions.getId().equalsIgnoreCase("highest")) {
-			                    		detecter = true;
+			                    		player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix 
+			    								+ "You've finished the Climb to the highest point of the spawn mission!"));
+			    						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &65 mega crystals&4!"));
+			    						
+			    						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "kit 5crystal " + 
+			    								file.getString("missions_and_users." + key + ".username"));
+			    						
+			    						file.set("missions_and_users." + key + ".mission", 9);
+			    						Main.saveData();
 			                    		continue;
 			                    	}
 
 			                    } catch (Exception e) {
 			                        e.printStackTrace();
 			                    }
-					
-					if (detecter) {
-						
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix 
-								+ "You've finished the Climb to the highest point of the spawn mission!"));
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &65 mega crystals&4!"));
-						
-						Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "kit 5crystal " + 
-								file.getString("missions_and_users." + key + ".username"));
-						
-						file.set("missions_and_users." + key + ".mission", 9);
-						Main.saveData();
-						
-						return;
-						
-					}
 					
 				}
 				

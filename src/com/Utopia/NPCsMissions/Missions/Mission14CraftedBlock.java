@@ -29,7 +29,7 @@ public class Mission14CraftedBlock implements Listener {
 					Player player = (Player) event.getWhoClicked();
 					ItemStack item = event.getCurrentItem();
 					
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("0") &&
+					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 0 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.white") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a white concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.white", true);
@@ -37,7 +37,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("1") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 1 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.orange") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted an orange concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.orange", true);
@@ -45,7 +45,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("2") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 2 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.magenta") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a magenta concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.magenta", true);
@@ -53,7 +53,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("3") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 3 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.light_blue") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a light blue concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.light_blue", true);
@@ -61,7 +61,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("4") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 4 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.yellow") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a yellow concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.yellow", true);
@@ -69,7 +69,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("5") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 5 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.lime") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a lime concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.lime", true);
@@ -77,7 +77,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 	
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("6") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 6 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.pink") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a pink concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.pink", true);
@@ -85,7 +85,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("7") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 7 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.gray") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a gray concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.gray", true);
@@ -93,7 +93,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("8") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 8 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.light_gray") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a light gray concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.light_gray", true);
@@ -101,7 +101,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("9") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 9 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.cyan") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a cyan concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.cyan", true);
@@ -109,7 +109,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("10") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 10 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.purple") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a purple concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.purple", true);
@@ -117,7 +117,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 			
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("11") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 11 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.blue") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a blue concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.blue", true);
@@ -125,7 +125,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 			
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("12") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 12 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.brown") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a brown concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.brown", true);
@@ -133,7 +133,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 	
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("13") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 13 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.green") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a green concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.green", true);
@@ -141,7 +141,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("14") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 14 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.red") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a red concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.red", true);
@@ -149,7 +149,7 @@ public class Mission14CraftedBlock implements Listener {
 						return;
 					}
 					
-					if (item.getType().equals(Material.CONCRETE_POWDER) && item.getData().toString().contains("15") &&
+					else if (item.getType().equals(Material.CONCRETE_POWDER) && item.getDurability() == 15 &&
 							file.getBoolean("missions_and_users." + key + ".crafted_concrete_powder.black") == false) {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You crafted a black concrete powder."));
 						Main.getData().set("missions_and_users." + key + ".crafted_concrete_powder.black", true);

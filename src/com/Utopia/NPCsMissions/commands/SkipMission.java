@@ -78,7 +78,7 @@ public class SkipMission implements CommandExecutor {
 						
 					} else if (file.getInt("missions_and_users." + key + ".mission") < mission &&
 							namePlayer.contains(file.getString("missions_and_users." + key + ".username"))) {
-						player.sendMessage(ChatColor.RED + args[0] + " has not the " + (mission) + " mission!");
+						player.sendMessage(ChatColor.RED + args[0] + " has not finished the " + (mission-1) + " mission!");
 						return;
 					} else if (file.getInt("missions_and_users." + key + ".mission") > mission &&
 							namePlayer.contains(file.getString("missions_and_users." + key + ".username"))) {
@@ -100,7 +100,7 @@ public class SkipMission implements CommandExecutor {
 	private void getRewards(Integer mission, Player player) {
 		
 		if (mission == 1) {
-			player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the Buy 5 Lottery Tickets at the same time!"));
+			player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've finished the harvest 200 wheat mission!"));
 			player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You've recieved &6a Kit Serf&4!"));
 			
 			Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "kit Serf " + 

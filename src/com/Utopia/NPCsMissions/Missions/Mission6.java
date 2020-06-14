@@ -51,7 +51,6 @@ public class Mission6 implements Listener {
 			            if (regions.contains(playerVector))
 			                if (!entered.contains(player))
 			                    try {
-			                    	System.out.println(regions.getId());
 			                    	if (regions.getId().equalsIgnoreCase("warzone") && 
 			                    			file.getInt("missions_and_users." + key + ".killed_players_warzone_counter") < 3) {
 			                    		int count = file.getInt("missions_and_users." + key + ".killed_players_warzone_counter");

@@ -9,7 +9,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.Utopia.NPCsMissions.Events.Join;
@@ -47,7 +46,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
-import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
 
 public class Main extends JavaPlugin implements Listener{
@@ -55,17 +53,9 @@ public class Main extends JavaPlugin implements Listener{
 	public WorldGuardPlugin worldGuardPlugin;
 	public static DataManager data;
 	private ClickNPC npcClicked = new ClickNPC(this);
-	
-	private Economy econ;
 
 	@Override
 	public void onEnable() {
-		
-		if (!setupEconomy()) {
-            this.getLogger().severe("Disabled due to no Vault dependency found!");
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
-        }
 
 		this.saveDefaultConfig();
 		
@@ -79,7 +69,7 @@ public class Main extends JavaPlugin implements Listener{
 		this.getServer().getPluginManager().registerEvents(new Respawn(), this);
 		this.getServer().getPluginManager().registerEvents(new Teleport(), this);
 		this.getServer().getPluginManager().registerEvents(npcClicked, this);
-		this.getServer().getPluginManager().registerEvents(new Mission1(econ), this);
+		this.getServer().getPluginManager().registerEvents(new Mission1(), this);
 		this.getServer().getPluginManager().registerEvents(new Mission2(getWorldGuard()), this);
 		this.getServer().getPluginManager().registerEvents(new Mission3(), this);
 		this.getServer().getPluginManager().registerEvents(new Mission4(), this);
@@ -158,23 +148,6 @@ public class Main extends JavaPlugin implements Listener{
             return null;
 
         return (WorldGuardPlugin) plugin;
-    }
-	
-	private boolean setupEconomy() {
-        if (Bukkit.getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return false;
-        }
-        econ = rsp.getProvider();
-        return econ != null;
-    }
-
-	public Economy getEconomy() {
-        return econ;
     }
 
 }
